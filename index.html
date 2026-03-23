@@ -21,7 +21,6 @@
       --accent3: #00d4aa;
       --text: #f0f0f8;
       --text2: #9090aa;
-      --text3: #6060778;
       --free: #00c896;
       --freemium: #6c63ff;
       --paid: #ff6b6b;
@@ -42,7 +41,6 @@
       overflow-x: hidden;
     }
 
-    /* ── NOISE TEXTURE OVERLAY ── */
     body::before {
       content: '';
       position: fixed;
@@ -53,7 +51,6 @@
       opacity: 0.4;
     }
 
-    /* ── HERO GLOW ── */
     .hero-glow {
       position: absolute;
       top: -200px;
@@ -66,7 +63,6 @@
       z-index: 0;
     }
 
-    /* ── HEADER ── */
     header {
       position: relative;
       text-align: center;
@@ -90,7 +86,6 @@
     }
 
     .site-badge .dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
-
     @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.4)} }
 
     h1 {
@@ -117,7 +112,6 @@
       font-weight: 300;
     }
 
-    /* ── STATS BAR ── */
     .stats-bar {
       display: flex;
       justify-content: center;
@@ -140,7 +134,6 @@
     .stat-pill strong { font-family: var(--font-head); font-size: 15px; color: var(--text); }
     .stat-pill span { color: var(--text2); }
 
-    /* ── SEARCH ── */
     .search-wrap {
       position: relative;
       max-width: 620px;
@@ -172,7 +165,6 @@
     #search::placeholder { color: var(--text2); }
     #search:focus { border-color: rgba(108,99,255,0.5); box-shadow: 0 0 0 4px rgba(108,99,255,0.1); }
 
-    /* ── PRICING FILTER ── */
     .pricing-filters {
       display: flex;
       justify-content: center;
@@ -205,7 +197,6 @@
     .price-btn.active[data-price="paid"] { background: rgba(255,107,107,0.15); border-color: rgba(255,107,107,0.4); color: var(--paid); }
     .price-btn.active[data-price="enterprise"] { background: rgba(240,165,0,0.15); border-color: rgba(240,165,0,0.4); color: var(--enterprise); }
 
-    /* ── CATEGORY TABS ── */
     .cat-scroll {
       overflow-x: auto;
       padding-bottom: 10px;
@@ -242,18 +233,10 @@
     }
 
     .cat-btn:hover { background: var(--card); color: var(--text); border-color: var(--border-hover); }
-
-    .cat-btn.active {
-      background: var(--card-hover);
-      color: var(--text);
-      border-color: var(--border-hover);
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
-    }
-
+    .cat-btn.active { background: var(--card-hover); color: var(--text); border-color: var(--border-hover); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05); }
     .cat-btn .cat-icon { font-size: 15px; }
     .cat-btn .cat-count { font-size: 11px; opacity: 0.6; }
 
-    /* ── SECTION HEADING ── */
     .section-head {
       display: flex;
       align-items: center;
@@ -269,11 +252,7 @@
       letter-spacing: -0.01em;
     }
 
-    .section-line {
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-    }
+    .section-line { flex: 1; height: 1px; background: var(--border); }
 
     .section-count {
       font-size: 12px;
@@ -284,10 +263,9 @@
       padding: 2px 10px;
     }
 
-    /* ── TOOL CARDS ── */
     .tools-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
       gap: 14px;
       margin-bottom: 50px;
     }
@@ -306,24 +284,12 @@
       cursor: default;
     }
 
-    .tool-card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: 16px;
-      opacity: 0;
-      transition: opacity .2s;
-      pointer-events: none;
-    }
-
     .tool-card:hover {
       border-color: var(--border-hover);
       background: var(--card-hover);
       transform: translateY(-2px);
       box-shadow: 0 12px 40px rgba(0,0,0,0.4);
     }
-
-    .tool-card:hover::before { opacity: 1; }
 
     .card-top {
       display: flex;
@@ -340,11 +306,7 @@
       line-height: 1.2;
     }
 
-    .tool-country {
-      font-size: 11px;
-      color: var(--text2);
-      margin-top: 2px;
-    }
+    .tool-country { font-size: 11px; color: var(--text2); margin-top: 2px; }
 
     .price-badge {
       display: inline-flex;
@@ -364,7 +326,6 @@
     .price-badge.paid { background: rgba(255,107,107,0.15); color: var(--paid); border: 1px solid rgba(255,107,107,0.25); }
     .price-badge.enterprise { background: rgba(240,165,0,0.15); color: var(--enterprise); border: 1px solid rgba(240,165,0,0.25); }
 
-    /* Pricing detail rows */
     .pricing-detail {
       background: var(--bg3);
       border: 1px solid var(--border);
@@ -374,26 +335,13 @@
       line-height: 1.7;
     }
 
-    .pricing-detail .pd-row {
-      display: flex;
-      gap: 6px;
-    }
-
-    .pricing-detail .pd-label {
-      color: var(--text2);
-      min-width: 80px;
-      flex-shrink: 0;
-    }
-
+    .pricing-detail .pd-row { display: flex; gap: 6px; }
+    .pricing-detail .pd-label { color: var(--text2); min-width: 80px; flex-shrink: 0; }
     .pricing-detail .pd-val { color: var(--text); }
     .pricing-detail .pd-val.highlight { color: var(--free); }
     .pricing-detail .pd-val.warn { color: var(--paid); }
 
-    .tool-tagline {
-      font-size: 13px;
-      color: var(--text2);
-      line-height: 1.55;
-    }
+    .tool-tagline { font-size: 13px; color: var(--text2); line-height: 1.55; flex: 1; }
 
     .tool-tags {
       display: flex;
@@ -410,6 +358,34 @@
       color: var(--text2);
     }
 
+    /* ── VISIT BUTTON ── */
+    .visit-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      font-family: var(--font-body);
+      text-decoration: none;
+      border: 1px solid var(--border-hover);
+      color: var(--text2);
+      background: var(--bg3);
+      transition: all .18s;
+      align-self: flex-start;
+      letter-spacing: 0.02em;
+    }
+
+    .visit-btn:hover {
+      color: var(--text);
+      border-color: rgba(108,99,255,0.5);
+      background: rgba(108,99,255,0.1);
+      text-decoration: none;
+    }
+
+    .visit-btn i { font-size: 11px; }
+
     .cat-accent {
       width: 3px;
       height: 100%;
@@ -420,27 +396,13 @@
       bottom: 0;
     }
 
-    /* ── NO RESULTS ── */
-    .no-results {
-      text-align: center;
-      padding: 80px 20px;
-      color: var(--text2);
-    }
-
+    .no-results { text-align: center; padding: 80px 20px; color: var(--text2); }
     .no-results i { font-size: 40px; opacity: 0.3; display: block; margin-bottom: 16px; }
     .no-results h3 { font-family: var(--font-head); font-size: 1.3rem; color: var(--text); margin-bottom: 8px; }
 
-    /* ── RESULTS COUNT ── */
-    .results-info {
-      font-size: 13px;
-      color: var(--text2);
-      margin-bottom: 32px;
-      text-align: center;
-    }
-
+    .results-info { font-size: 13px; color: var(--text2); margin-bottom: 32px; text-align: center; }
     .results-info strong { color: var(--text); }
 
-    /* ── LEGEND ── */
     .legend {
       background: var(--card);
       border: 1px solid var(--border);
@@ -459,42 +421,15 @@
       margin-bottom: 14px;
     }
 
-    .legend-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 12px;
-    }
-
-    .legend-item {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .legend-label {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 13px;
-      font-weight: 600;
-    }
-
+    .legend-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+    .legend-item { display: flex; flex-direction: column; gap: 4px; }
+    .legend-label { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; }
     .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
     .legend-desc { font-size: 12px; color: var(--text2); line-height: 1.4; }
 
-    /* ── FOOTER ── */
-    footer {
-      text-align: center;
-      padding: 40px 20px;
-      color: var(--text2);
-      font-size: 13px;
-      border-top: 1px solid var(--border);
-      margin-top: 20px;
-    }
-
+    footer { text-align: center; padding: 40px 20px; color: var(--text2); font-size: 13px; border-top: 1px solid var(--border); margin-top: 20px; }
     footer a { color: var(--accent); text-decoration: none; }
 
-    /* ── RESPONSIVE ── */
     @media (max-width: 576px) {
       .tools-grid { grid-template-columns: 1fr; }
       h1 { font-size: 2rem; }
@@ -502,7 +437,6 @@
       .stat-pill { font-size: 12px; padding: 6px 14px; }
     }
 
-    /* ── ANIMATIONS ── */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(16px); }
       to { opacity: 1; transform: translateY(0); }
@@ -510,7 +444,6 @@
 
     .tool-card { animation: fadeUp .3s ease both; }
 
-    /* ── STICKY FILTERS ── */
     .sticky-controls {
       position: sticky;
       top: 0;
@@ -525,19 +458,18 @@
 </head>
 <body>
 
-<!-- HEADER -->
 <header>
   <div class="hero-glow"></div>
   <div class="container position-relative" style="z-index:1">
     <div class="site-badge">
       <span class="dot"></span>
-      Updated March 2026 · 100+ tools worldwide
+      Updated March 2026 · 115+ tools worldwide
     </div>
     <h1>The <span class="grad">AI Tools</span><br>Universe 2026</h1>
-    <p class="hero-sub">Every major AI tool — worldwide, by category, with full pricing transparency. Know exactly what's free, what's paid, and what's worth it.</p>
+    <p class="hero-sub">Every major AI tool — worldwide, by category, with full pricing transparency and direct links. Know exactly what's free, what's paid, and what's worth it.</p>
 
     <div class="stats-bar">
-      <div class="stat-pill"><strong id="total-count">100+</strong><span>total tools</span></div>
+      <div class="stat-pill"><strong id="total-count">115+</strong><span>total tools</span></div>
       <div class="stat-pill" style="color:var(--free)"><strong id="free-count">—</strong><span>100% free</span></div>
       <div class="stat-pill" style="color:#a29fff"><strong id="freemium-count">—</strong><span>freemium</span></div>
       <div class="stat-pill" style="color:var(--paid)"><strong id="paid-count">—</strong><span>paid only</span></div>
@@ -546,7 +478,6 @@
   </div>
 </header>
 
-<!-- STICKY CONTROLS -->
 <div class="sticky-controls">
   <div class="container">
     <div class="search-wrap mb-2">
@@ -558,20 +489,16 @@
         <span>All pricing</span>
       </button>
       <button class="price-btn" data-price="free" onclick="setPriceFilter('free',this)">
-        <span class="badge-dot" style="background:var(--free)"></span>
-        <span>100% Free</span>
+        <span class="badge-dot" style="background:var(--free)"></span><span>100% Free</span>
       </button>
       <button class="price-btn" data-price="freemium" onclick="setPriceFilter('freemium',this)">
-        <span class="badge-dot" style="background:#a29fff"></span>
-        <span>Freemium</span>
+        <span class="badge-dot" style="background:#a29fff"></span><span>Freemium</span>
       </button>
       <button class="price-btn" data-price="paid" onclick="setPriceFilter('paid',this)">
-        <span class="badge-dot" style="background:var(--paid)"></span>
-        <span>Paid Plans</span>
+        <span class="badge-dot" style="background:var(--paid)"></span><span>Paid Plans</span>
       </button>
       <button class="price-btn" data-price="enterprise" onclick="setPriceFilter('enterprise',this)">
-        <span class="badge-dot" style="background:var(--enterprise)"></span>
-        <span>Enterprise</span>
+        <span class="badge-dot" style="background:var(--enterprise)"></span><span>Enterprise</span>
       </button>
     </div>
   </div>
@@ -579,7 +506,6 @@
 
 <div class="container mt-4">
 
-  <!-- PRICING LEGEND -->
   <div class="legend mb-4">
     <h5>Pricing model guide</h5>
     <div class="legend-grid">
@@ -589,7 +515,7 @@
       </div>
       <div class="legend-item">
         <div class="legend-label"><span class="legend-dot" style="background:#a29fff"></span>Freemium</div>
-        <div class="legend-desc">Free tier with real utility + paid plans for power users. Try before you buy.</div>
+        <div class="legend-desc">Free tier with real utility + paid plans for power users.</div>
       </div>
       <div class="legend-item">
         <div class="legend-label"><span class="legend-dot" style="background:var(--paid)"></span>Paid Plans</div>
@@ -602,17 +528,12 @@
     </div>
   </div>
 
-  <!-- CATEGORY TABS -->
   <div class="cat-scroll">
     <div class="cat-tabs" id="catTabs"></div>
   </div>
 
-  <!-- RESULTS INFO -->
   <p class="results-info" id="resultsInfo">Showing all tools</p>
-
-  <!-- TOOLS OUTPUT -->
   <div id="toolsOutput"></div>
-
 </div>
 
 <footer>
@@ -621,153 +542,195 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-// ─────────────────────────────────────────────
-// DATA — every tool with full pricing detail
-// ─────────────────────────────────────────────
 const TOOLS = [
 
   // ── AI CHATBOTS ──
   { name:"ChatGPT", cat:"AI Chatbots", icon:"bi-chat-dots", country:"🇺🇸 USA",
+    url:"https://chatgpt.com",
     tagline:"All-purpose AI for writing, coding, images, analysis, voice and browsing. The world's most-used AI.",
     price:"freemium",
-    pricing:{ free:"GPT-4o mini unlimited; GPT-4o limited", paid:"$20/mo Plus — higher limits, voice, DALL·E, GPT-4o; $25/mo Team; $30/mo Pro (o3)", enterprise:"Custom contract pricing" },
+    pricing:{ free:"GPT-4o mini unlimited; GPT-4o limited", paid:"$20/mo Plus — higher limits, voice, DALL·E, GPT-4o; $25/mo Team; $200/mo Pro (o3/o4)", enterprise:"Custom contract pricing" },
     tags:["GPT-4o","o3","Voice","Images","Code","Browsing"] },
 
-  { name:"Claude (Anthropic)", cat:"AI Chatbots", icon:"bi-stars", country:"🇺🇸 USA",
+  { name:"Claude", cat:"AI Chatbots", icon:"bi-stars", country:"🇺🇸 USA",
+    url:"https://claude.ai",
     tagline:"Best for long documents, code review, reasoning and nuanced writing. 200K context window.",
     price:"freemium",
     pricing:{ free:"Claude Sonnet 4.6 with daily limits", paid:"$20/mo Pro — Opus 4.6, higher limits, Projects; $30/mo Team", enterprise:"Custom enterprise pricing" },
     tags:["Long context","Code","200K tokens","Reasoning","Writing"] },
 
   { name:"Gemini (Google)", cat:"AI Chatbots", icon:"bi-google", country:"🇺🇸 USA",
-    tagline:"Google's multimodal AI — deep web integration, real-time search, 2M context in Ultra.",
+    url:"https://gemini.google.com",
+    tagline:"Google's multimodal AI — deep web integration, real-time search, 2M context in Advanced.",
     price:"freemium",
-    pricing:{ free:"Gemini 1.5 Flash free tier", paid:"$19.99/mo Advanced — Gemini 1.5 Ultra, 2M context", enterprise:"Google Workspace add-on pricing" },
+    pricing:{ free:"Gemini 1.5 Flash free tier with Google account", paid:"$19.99/mo Advanced — Gemini 1.5 Ultra, 2M context", enterprise:"Google Workspace add-on pricing" },
     tags:["Multimodal","Real-time search","Google Workspace","2M context"] },
 
   { name:"Grok (xAI)", cat:"AI Chatbots", icon:"bi-twitter-x", country:"🇺🇸 USA",
+    url:"https://grok.com",
     tagline:"Real-time X/Twitter data, trending topic AI, image generation and document analysis.",
     price:"freemium",
     pricing:{ free:"Grok 3 basic via X app with limits", paid:"$8/mo X Premium; $22/mo X Premium+", enterprise:"API pricing per token via xAI" },
     tags:["Real-time X data","Trending","Image gen","Aurora model"] },
 
   { name:"Perplexity AI", cat:"AI Chatbots", icon:"bi-search-heart", country:"🇺🇸 USA",
+    url:"https://www.perplexity.ai",
     tagline:"AI search engine with cited sources — live web results, deep research mode, file analysis.",
     price:"freemium",
     pricing:{ free:"5 Pro searches/day, unlimited standard", paid:"$20/mo Pro — unlimited deep searches, file uploads, API credits" },
     tags:["Cited sources","Live web","Deep Research","File analysis"] },
 
-  { name:"Meta AI (Llama 3)", cat:"AI Chatbots", icon:"bi-meta", country:"🇺🇸 USA",
+  { name:"Meta AI (Llama)", cat:"AI Chatbots", icon:"bi-meta", country:"🇺🇸 USA",
+    url:"https://www.meta.ai",
     tagline:"Open-source LLM embedded across WhatsApp, Instagram, Facebook and Messenger. Free forever.",
     price:"free",
-    pricing:{ free:"100% free in Meta apps and meta.ai; self-host Llama 3 model for free" },
+    pricing:{ free:"100% free in Meta apps and meta.ai; self-host Llama 3/4 model for free" },
     tags:["Open source","WhatsApp","Instagram","Self-hostable","Free forever"] },
 
   { name:"Microsoft Copilot", cat:"AI Chatbots", icon:"bi-microsoft", country:"🇺🇸 USA",
+    url:"https://copilot.microsoft.com",
     tagline:"AI across Windows, Edge, Bing, Word, Excel, Teams. GPT-4o powered with built-in safety.",
     price:"freemium",
     pricing:{ free:"Copilot.microsoft.com free with limits", paid:"$20/mo Copilot Pro; Microsoft 365 Copilot enterprise pricing" },
     tags:["Windows","Office 365","Edge","Teams","GPT-4o"] },
 
-  { name:"Mistral AI", cat:"AI Chatbots", icon:"bi-wind", country:"🇫🇷 France",
+  { name:"Mistral AI (Le Chat)", cat:"AI Chatbots", icon:"bi-wind", country:"🇫🇷 France",
+    url:"https://mistral.ai",
     tagline:"European open-weight LLMs — privacy-first, efficient, strong reasoning, self-hostable.",
     price:"freemium",
-    pricing:{ free:"Le Chat free tier; open-weight Mistral 7B self-host free", paid:"€14.99/mo Le Chat Pro", enterprise:"La Plateforme API pricing per token" },
+    pricing:{ free:"Le Chat free tier; open-weight Mistral models self-host free", paid:"€14.99/mo Le Chat Pro", enterprise:"La Plateforme API pricing per token" },
     tags:["European","Open-weight","Privacy","Self-host","GDPR"] },
 
   { name:"Cohere", cat:"AI Chatbots", icon:"bi-hdd-network", country:"🇨🇦 Canada",
+    url:"https://cohere.com",
     tagline:"Enterprise-grade LLMs focused on RAG, embeddings and private cloud deployment.",
     price:"enterprise",
     pricing:{ free:"Limited trial API credits", paid:"Pay-per-use API ($0.50–$15 per 1M tokens)", enterprise:"Custom enterprise, private cloud, VPC deployment" },
     tags:["RAG","Embeddings","Enterprise","Private cloud","Command R+"] },
 
+  { name:"DeepSeek", cat:"AI Chatbots", icon:"bi-water", country:"🇨🇳 China",
+    url:"https://www.deepseek.com",
+    tagline:"Open-source reasoning model from China — outperforms many closed models at near-zero cost.",
+    price:"freemium",
+    pricing:{ free:"Free web chat and API trial credits", paid:"API: $0.07–$2.19 per 1M tokens (very low cost)", enterprise:"Custom large-scale API contracts" },
+    tags:["Open source","Reasoning","Low cost","API","R1 model"] },
+
+  { name:"Qwen (Alibaba)", cat:"AI Chatbots", icon:"bi-cloud-fill", country:"🇨🇳 China",
+    url:"https://chat.qwen.ai",
+    tagline:"Alibaba's open-source LLM family — strong multilingual, maths and code performance.",
+    price:"freemium",
+    pricing:{ free:"Qwen web chat free; open-source models self-host free", paid:"Alibaba Cloud API pay-per-token pricing" },
+    tags:["Open source","Multilingual","Maths","Code","Alibaba"] },
+
   // ── CODING ──
   { name:"GitHub Copilot", cat:"Coding", icon:"bi-github", country:"🇺🇸 USA",
+    url:"https://github.com/features/copilot",
     tagline:"In-editor AI code completions across VS Code, JetBrains, Neovim. Agent mode in VS Code.",
     price:"freemium",
-    pricing:{ free:"Free for verified students, teachers and top OSS maintainers; free tier for individuals (2K completions/mo)", paid:"$10/mo Individual; $19/mo Business; $39/mo Enterprise" },
+    pricing:{ free:"Free tier: 2,000 completions/mo; free for verified students & OSS maintainers", paid:"$10/mo Individual; $19/mo Business; $39/mo Enterprise" },
     tags:["VS Code","JetBrains","Agent mode","Code completion","PR summaries"] },
 
   { name:"Cursor", cat:"Coding", icon:"bi-cursor", country:"🇺🇸 USA",
+    url:"https://www.cursor.com",
     tagline:"AI-first VS Code fork — chat, agent, multi-file edits and codebase-wide context.",
     price:"freemium",
-    pricing:{ free:"2 weeks free Pro trial; Hobby plan free with 2K completions/mo", paid:"$20/mo Pro; $40/mo Business" },
+    pricing:{ free:"Hobby plan free with 2K completions/mo; 2-week Pro trial", paid:"$20/mo Pro; $40/mo Business" },
     tags:["VS Code fork","Agent","Multi-file","Chat in IDE","Context-aware"] },
 
   { name:"Windsurf (Codeium)", cat:"Coding", icon:"bi-wind", country:"🇺🇸 USA",
+    url:"https://codeium.com/windsurf",
     tagline:"Top-rated AI coding IDE 2026. Cascade agent works across your whole repo autonomously.",
     price:"freemium",
     pricing:{ free:"Free tier with Cascade base model", paid:"$15/mo Pro; $30/mo Teams seat" },
     tags:["Cascade agent","Best IDE 2026","Codeium","Full repo context","Agentic"] },
 
   { name:"Claude Code", cat:"Coding", icon:"bi-terminal", country:"🇺🇸 USA",
-    tagline:"Terminal-based agentic coding that reads/edits/runs your entire codebase end-to-end.",
+    url:"https://www.anthropic.com/claude-code",
+    tagline:"Terminal-based agentic coding that reads, edits and runs your entire codebase end-to-end.",
     price:"paid",
     pricing:{ paid:"Included in Claude Pro ($20/mo) and API usage-based pricing" },
     tags:["Agentic","Terminal","CLI","Full codebase","Anthropic"] },
 
   { name:"Amazon CodeWhisperer", cat:"Coding", icon:"bi-amazon", country:"🇺🇸 USA",
+    url:"https://aws.amazon.com/codewhisperer",
     tagline:"AWS-native AI coding assistant with security vulnerability scanning built in.",
     price:"freemium",
     pricing:{ free:"Individual tier free — unlimited code suggestions, security scans", paid:"$19/mo Professional — org policies, audit dashboard, license tracking" },
     tags:["AWS","Security scanning","Java","Python","TypeScript"] },
 
   { name:"Replit AI", cat:"Coding", icon:"bi-code-slash", country:"🇺🇸 USA",
+    url:"https://replit.com",
     tagline:"Browser-based IDE with AI — build, run, deploy apps in seconds. Great for beginners.",
     price:"freemium",
     pricing:{ free:"Starter: basic AI, 3 public Repls", paid:"$20/mo Core — AI agent, private Repls, more compute; $40/mo Teams" },
     tags:["Browser IDE","Deploy","Beginner","50+ languages","Hosting"] },
 
   { name:"Tabnine", cat:"Coding", icon:"bi-shield-check", country:"🇮🇱 Israel",
+    url:"https://www.tabnine.com",
     tagline:"Privacy-first AI code completion — fully self-hosted, trains on your own codebase only.",
     price:"paid",
-    pricing:{ free:"Basic plan: limited completions", paid:"$12/mo Dev; $39/mo Enterprise (self-hosted, air-gapped available)" },
+    pricing:{ free:"Basic plan: limited completions", paid:"$12/mo Dev; $39/mo Enterprise (self-hosted, air-gapped)" },
     tags:["Private","Self-hosted","Air-gapped","Enterprise security","Your codebase"] },
 
   { name:"Bolt.new", cat:"Coding", icon:"bi-lightning-charge", country:"🇺🇸 USA",
+    url:"https://bolt.new",
     tagline:"Generate and deploy full-stack web apps from a single prompt. StackBlitz-powered.",
     price:"freemium",
     pricing:{ free:"Starter: 150K AI tokens/mo free", paid:"$20/mo Pro — 10M tokens; $50/mo Teams" },
     tags:["Full-stack","Deploy","StackBlitz","React","Node.js"] },
 
   { name:"v0 by Vercel", cat:"Coding", icon:"bi-triangle", country:"🇺🇸 USA",
+    url:"https://v0.dev",
     tagline:"Generate React/Tailwind UI components from text or screenshots. One-click deploy.",
     price:"freemium",
     pricing:{ free:"Free tier: 200 credits/mo", paid:"$20/mo Premium — 5,000 credits; usage-based Pro" },
     tags:["React","Tailwind","UI generation","Components","Vercel"] },
 
+  { name:"Aider", cat:"Coding", icon:"bi-terminal-dash", country:"🇺🇸 USA",
+    url:"https://aider.chat",
+    tagline:"Open-source AI pair programmer in your terminal — works with any LLM, git-native workflow.",
+    price:"free",
+    pricing:{ free:"Completely open-source and free; pay only for the LLM API you connect (Claude, GPT, etc.)" },
+    tags:["Open source","Terminal","Git-native","Any LLM","Python"] },
+
   // ── RESEARCH ──
   { name:"NotebookLM", cat:"Research", icon:"bi-journal-bookmark", country:"🇺🇸 USA",
+    url:"https://notebooklm.google.com",
     tagline:"Google's AI notebook — upload docs, ask questions, get cited answers and audio overviews.",
     price:"free",
-    pricing:{ free:"Completely free — Google account required; NotebookLM Plus in Google One AI Premium ($19.99/mo)" },
+    pricing:{ free:"Completely free — Google account required; Plus features in Google One AI Premium ($19.99/mo)" },
     tags:["Your docs","Cited answers","Audio overview","Google","PDF chat"] },
 
   { name:"Elicit", cat:"Research", icon:"bi-mortarboard", country:"🇺🇸 USA",
+    url:"https://elicit.com",
     tagline:"AI research assistant for academic papers — find, summarise and compare studies.",
     price:"freemium",
     pricing:{ free:"Basic: 12 papers/search, limited extractions", paid:"$12/mo Plus — unlimited papers, advanced extractions, CSV export" },
     tags:["Academic","Papers","Summarise","Compare studies","Science"] },
 
   { name:"Consensus", cat:"Research", icon:"bi-check2-all", country:"🇺🇸 USA",
+    url:"https://consensus.app",
     tagline:"Search 200M scientific papers, get evidence-based AI answers with consensus meter.",
     price:"freemium",
-    pricing:{ free:"20 AI searches/mo free", paid:"$10.99/mo Premium — unlimited AI searches, GPT-4 synthesis, BookmarkLists" },
+    pricing:{ free:"20 AI searches/mo free", paid:"$10.99/mo Premium — unlimited AI searches, GPT-4 synthesis" },
     tags:["Science","200M papers","Evidence-based","Consensus meter","Scholarly"] },
 
   { name:"Semantic Scholar", cat:"Research", icon:"bi-building-check", country:"🇺🇸 USA",
+    url:"https://www.semanticscholar.org",
     tagline:"Free AI-powered academic search by Allen Institute — 200M+ papers, citation graphs.",
     price:"free",
     pricing:{ free:"Entirely free — API available free for researchers" },
     tags:["Free","200M papers","STEM","Citation graph","Allen Institute"] },
 
   { name:"SciSpace", cat:"Research", icon:"bi-file-earmark-text", country:"🇮🇳 India",
-    tagline:"Read, chat with and annotate research PDFs. Ask math and science questions with AI.",
+    url:"https://typeset.io",
+    tagline:"Read, chat with and annotate research PDFs. Ask maths and science questions with AI.",
     price:"freemium",
     pricing:{ free:"5 AI summaries/mo free", paid:"$12/mo Pro — unlimited papers, literature reviews, paraphraser" },
     tags:["PDF chat","Annotations","Math AI","Literature review","India"] },
 
   { name:"Scite.ai", cat:"Research", icon:"bi-quote", country:"🇺🇸 USA",
+    url:"https://scite.ai",
     tagline:"See how papers cite others — supporting, contrasting or mentioning. Deep citation context.",
     price:"paid",
     pricing:{ paid:"$20/mo — institution and student discounts available; 7-day free trial" },
@@ -775,36 +738,42 @@ const TOOLS = [
 
   // ── DIGITAL MARKETING ──
   { name:"Jasper AI", cat:"Digital Marketing", icon:"bi-megaphone", country:"🇺🇸 USA",
+    url:"https://www.jasper.ai",
     tagline:"Marketing-trained AI — brand voice lock, 50+ templates, team collaboration, multi-channel.",
     price:"paid",
     pricing:{ paid:"$49/mo Creator (1 seat); $69/mo Pro (5 seats); Business custom — 7-day free trial" },
     tags:["Brand voice","Templates","Campaigns","Social","Email","Landing pages"] },
 
   { name:"Copy.ai", cat:"Digital Marketing", icon:"bi-pen", country:"🇺🇸 USA",
+    url:"https://www.copy.ai",
     tagline:"AI copy for ads, emails, blogs, social media. GTM AI platform for entire revenue teams.",
     price:"freemium",
     pricing:{ free:"Free forever plan: 2,000 words/mo, 1 seat", paid:"$49/mo Starter; $249/mo Advanced; custom Enterprise" },
     tags:["Ads","Email copy","Blog","Social","GTM AI","Workflows"] },
 
   { name:"Anyword", cat:"Digital Marketing", icon:"bi-bar-chart-line", country:"🇮🇱 Israel",
+    url:"https://anyword.com",
     tagline:"Performance-predicted AI copy — scores ad effectiveness before you launch it.",
     price:"paid",
     pricing:{ paid:"$49/mo Starter; $99/mo Data-Driven; $499/mo Business — 7-day free trial" },
     tags:["Predictive scoring","Ads","Facebook Ads","A/B testing","Performance"] },
 
   { name:"Writesonic", cat:"Digital Marketing", icon:"bi-lightning", country:"🇮🇳 India",
+    url:"https://writesonic.com",
     tagline:"SEO-focused content with multiple LLMs — GPT-4o, Claude and Gemini in one platform.",
     price:"freemium",
     pricing:{ free:"Free: 10,000 words/mo with GPT 3.5", paid:"$20/mo Individual; $99/mo Standard; $249/mo Professional" },
     tags:["Multi-LLM","SEO","Bulk content","WordPress","Social AI"] },
 
   { name:"Predis.ai", cat:"Digital Marketing", icon:"bi-image", country:"🇮🇳 India",
+    url:"https://predis.ai",
     tagline:"AI social media content — generate posts, carousels, reels scripts and competitor analysis.",
     price:"freemium",
     pricing:{ free:"Free: 15 AI posts/mo, 1 brand", paid:"$29/mo Solo; $59/mo Starter; $139/mo Agency" },
     tags:["Social visuals","Carousels","Competitor analysis","Scheduling","Reels"] },
 
   { name:"Arcads", cat:"Digital Marketing", icon:"bi-camera-video", country:"🇺🇸 USA",
+    url:"https://www.arcads.ai",
     tagline:"AI-generated UGC-style ad creatives using AI actors at scale, no filming needed.",
     price:"paid",
     pricing:{ paid:"$99/mo Starter (10 videos); $249/mo Growth; Enterprise custom — free sample video" },
@@ -812,30 +781,35 @@ const TOOLS = [
 
   // ── MARKETING ──
   { name:"HubSpot AI", cat:"Marketing", icon:"bi-diagram-3", country:"🇺🇸 USA",
+    url:"https://www.hubspot.com",
     tagline:"All-in-one CRM + AI for email, landing pages, ads, social and full funnel automation.",
     price:"freemium",
     pricing:{ free:"Free CRM forever (contacts, deals, forms, emails — limited)", paid:"$20/mo Starter; $890/mo Professional; $3,600/mo Enterprise" },
     tags:["CRM","Email","Landing pages","Automation","Full funnel"] },
 
   { name:"Klaviyo", cat:"Marketing", icon:"bi-envelope-at", country:"🇺🇸 USA",
+    url:"https://www.klaviyo.com",
     tagline:"AI email & SMS for e-commerce — predictive analytics, segmentation and flows.",
     price:"freemium",
     pricing:{ free:"Free up to 250 contacts and 500 emails/mo", paid:"From $20/mo (scales with contacts)" },
     tags:["E-commerce","SMS","Email","Predictive CLV","Shopify"] },
 
   { name:"Mailchimp AI", cat:"Marketing", icon:"bi-mailbox2", country:"🇺🇸 USA",
+    url:"https://mailchimp.com",
     tagline:"Email marketing with AI subject line optimiser, audience segmentation and send-time AI.",
     price:"freemium",
     pricing:{ free:"Free: 500 contacts, 1,000 emails/mo, basic templates", paid:"$13/mo Essentials; $20/mo Standard; $350/mo Premium" },
     tags:["Email","Segmentation","Subject line AI","Send-time optimisation","Audience"] },
 
   { name:"ActiveCampaign", cat:"Marketing", icon:"bi-gear-wide-connected", country:"🇺🇸 USA",
+    url:"https://www.activecampaign.com",
     tagline:"AI-powered marketing automation + CRM — flows, scoring, predictive sending.",
     price:"paid",
     pricing:{ paid:"$29/mo Starter; $49/mo Plus; $149/mo Professional — 14-day free trial" },
     tags:["Automation","CRM","Lead scoring","Predictive","Flows"] },
 
   { name:"Brevo", cat:"Marketing", icon:"bi-send", country:"🇫🇷 France",
+    url:"https://www.brevo.com",
     tagline:"Affordable email, SMS, WhatsApp and push notification marketing automation.",
     price:"freemium",
     pricing:{ free:"Free: 300 emails/day, unlimited contacts", paid:"€9/mo Starter; €18/mo Business; custom Enterprise" },
@@ -843,36 +817,42 @@ const TOOLS = [
 
   // ── SEO ──
   { name:"Semrush", cat:"SEO", icon:"bi-search", country:"🇺🇸 USA",
+    url:"https://www.semrush.com",
     tagline:"All-in-one SEO suite — keyword research, site audit, backlinks, content and PPC.",
     price:"paid",
     pricing:{ paid:"$139.95/mo Pro; $249.95/mo Guru; $499.95/mo Business — 7-day free trial" },
     tags:["Keywords","Backlinks","Site audit","PPC","Competitor intel"] },
 
   { name:"Ahrefs", cat:"SEO", icon:"bi-link-45deg", country:"🇸🇬 Singapore",
+    url:"https://ahrefs.com",
     tagline:"Industry-standard backlink database and keyword research. Includes Ahrefs AI features.",
     price:"paid",
     pricing:{ free:"Ahrefs Webmaster Tools free for site owners (limited)", paid:"$129/mo Lite; $249/mo Standard; $449/mo Advanced; $1,499/mo Enterprise" },
     tags:["Backlinks","Keywords","Site audit","Content explorer","Rank tracker"] },
 
   { name:"Surfer SEO", cat:"SEO", icon:"bi-graph-up-arrow", country:"🇵🇱 Poland",
+    url:"https://surferseo.com",
     tagline:"Real-time content editor that scores your article against top-ranking competitors.",
     price:"paid",
-    pricing:{ paid:"$99/mo Essential (30 articles/mo); $219/mo Scale (100 articles); custom Enterprise — 7-day free trial" },
+    pricing:{ paid:"$99/mo Essential (30 articles/mo); $219/mo Scale (100 articles); custom Enterprise — 7-day trial" },
     tags:["Content scoring","On-page","Real-time","SERP analysis","Outlines"] },
 
   { name:"Clearscope", cat:"SEO", icon:"bi-trophy", country:"🇺🇸 USA",
+    url:"https://www.clearscope.io",
     tagline:"AI content grader trusted by top enterprise teams — semantic keyword mapping.",
     price:"paid",
     pricing:{ paid:"$199/mo Essentials (20 reports); $599/mo Business; Enterprise custom" },
     tags:["Enterprise","Semantic SEO","Content grading","Relevance","B2B"] },
 
   { name:"RankMath AI", cat:"SEO", icon:"bi-wordpress", country:"🇮🇳 India",
+    url:"https://rankmath.com",
     tagline:"WordPress SEO plugin with AI content analysis, schema markup and rank tracking.",
     price:"freemium",
     pricing:{ free:"Free WordPress plugin with full basic SEO", paid:"$69/yr Pro; $199/yr Business; $499/yr Agency" },
     tags:["WordPress","Schema","AI suggestions","Free plugin","Rank tracker"] },
 
   { name:"MarketMuse", cat:"SEO", icon:"bi-map", country:"🇺🇸 USA",
+    url:"https://www.marketmuse.com",
     tagline:"Topical authority planner — AI finds content gaps and cluster opportunities.",
     price:"freemium",
     pricing:{ free:"Free: 10 queries/mo, 1 strategy report", paid:"$149/mo Standard; $399/mo Team; Enterprise custom" },
@@ -880,166 +860,221 @@ const TOOLS = [
 
   // ── WRITING ──
   { name:"Grammarly", cat:"Writing", icon:"bi-spell-check", country:"🇺🇸 USA",
+    url:"https://www.grammarly.com",
     tagline:"AI writing assistant for grammar, tone, clarity and generative writing in any app.",
     price:"freemium",
     pricing:{ free:"Free: grammar + basic tone detection in browser", paid:"$12/mo Premium; $15/mo Business (annual billing)" },
     tags:["Grammar","Tone","Clarity","Browser extension","Generative"] },
 
   { name:"Notion AI", cat:"Writing", icon:"bi-layout-text-window", country:"🇺🇸 USA",
+    url:"https://www.notion.so",
     tagline:"AI writing, summarisation and Q&A built inside your Notion workspace and docs.",
     price:"paid",
     pricing:{ free:"Free Notion plan includes limited AI usage", paid:"$10/mo Notion AI add-on (on top of Notion plans from $8/mo)" },
     tags:["Docs","Summarise","Q&A","Team workspace","Auto-fill"] },
 
   { name:"QuillBot", cat:"Writing", icon:"bi-arrow-repeat", country:"🇺🇸 USA",
+    url:"https://quillbot.com",
     tagline:"Paraphraser, summariser, grammar checker and citation generator in one tool.",
     price:"freemium",
     pricing:{ free:"Free: basic paraphrase (125 words), standard summariser", paid:"$9.95/mo Premium — longer inputs, 8 paraphrase modes, plagiarism checker" },
     tags:["Paraphrase","Summarise","Grammar","Citations","Student-friendly"] },
 
   { name:"Wordtune", cat:"Writing", icon:"bi-pencil-square", country:"🇮🇱 Israel",
+    url:"https://www.wordtune.com",
     tagline:"Sentence rewriter with instant alternatives — shorten, expand and change tone.",
     price:"freemium",
     pricing:{ free:"Free: 10 rewrites/day", paid:"$13.99/mo Advanced — unlimited rewrites, AI suggestions, magic wand" },
     tags:["Rewrite","Synonyms","Tone","Expand","Shorten"] },
 
   { name:"Hemingway Editor", cat:"Writing", icon:"bi-body-text", country:"🇺🇸 USA",
+    url:"https://hemingwayapp.com",
     tagline:"Readability grader — highlights passive voice, adverbs and complex sentences.",
     price:"freemium",
     pricing:{ free:"Free web version at hemingwayapp.com", paid:"$19.99 one-time desktop app (Windows/Mac)" },
     tags:["Readability","Passive voice","Clarity","Grade level","One-time purchase"] },
 
-  // ── IMAGE GEN ──
+  // ── IMAGE GENERATION ──
   { name:"Midjourney", cat:"Image Generation", icon:"bi-palette", country:"🇺🇸 USA",
+    url:"https://www.midjourney.com",
     tagline:"Highest quality artistic images — gold standard for AI art, photography and design.",
     price:"paid",
     pricing:{ paid:"$10/mo Basic (200 imgs); $30/mo Standard; $60/mo Pro; $120/mo Mega — no free tier" },
     tags:["Art quality","Photorealistic","Design","v6.1 model","Best quality"] },
 
-  { name:"DALL·E 3", cat:"Image Generation", icon:"bi-robot", country:"🇺🇸 USA",
+  { name:"DALL·E 3 (OpenAI)", cat:"Image Generation", icon:"bi-robot", country:"🇺🇸 USA",
+    url:"https://openai.com/dall-e-3",
     tagline:"OpenAI's image generator in ChatGPT — accurate, prompt-friendly, safe and fast.",
     price:"freemium",
     pricing:{ free:"Limited generations via ChatGPT free tier", paid:"Included in ChatGPT Plus $20/mo; API $0.04–$0.08/image" },
     tags:["ChatGPT","Accurate prompts","Safe","Text in images","Fast"] },
 
   { name:"Adobe Firefly", cat:"Image Generation", icon:"bi-fire", country:"🇺🇸 USA",
+    url:"https://firefly.adobe.com",
     tagline:"Commercially safe AI images trained on licensed content — Photoshop integration.",
     price:"freemium",
     pricing:{ free:"25 free generative credits/mo with free account", paid:"$9.99/mo Firefly Standard (100 credits); included in Creative Cloud plans" },
     tags:["Commercial safe","Licensed data","Photoshop","Generative fill","Professional"] },
 
   { name:"Stable Diffusion", cat:"Image Generation", icon:"bi-boxes", country:"🇺🇸 USA",
+    url:"https://stability.ai",
     tagline:"Open-source text-to-image model — fully customisable, self-hostable, thousands of community models.",
     price:"free",
     pricing:{ free:"Open-source and free to self-host; ComfyUI / AUTOMATIC1111 free; Stability AI API has usage tiers" },
     tags:["Open source","Self-host","Custom models","Community","ComfyUI"] },
 
   { name:"Ideogram", cat:"Image Generation", icon:"bi-type", country:"🇨🇦 Canada",
+    url:"https://ideogram.ai",
     tagline:"Best AI for text-in-image — logos, posters, t-shirts, signage with accurate text rendering.",
     price:"freemium",
     pricing:{ free:"Free: 10 slow generations/day", paid:"$8/mo Basic (400 imgs); $20/mo Plus; $60/mo Pro" },
     tags:["Text in images","Logos","Posters","Typography","Signage"] },
 
   { name:"Leonardo AI", cat:"Image Generation", icon:"bi-joystick", country:"🇦🇺 Australia",
+    url:"https://leonardo.ai",
     tagline:"Consistent character art and game assets with fine-tuned models and canvas tools.",
     price:"freemium",
     pricing:{ free:"150 free tokens/day (~150 standard images)", paid:"$12/mo Apprentice; $30/mo Artisan; $60/mo Maestro" },
     tags:["Game assets","Characters","Consistent style","Canvas","Fine-tune"] },
 
-  // ── VIDEO ──
-  { name:"Veo 3.2 (Google)", cat:"Video AI", icon:"bi-camera", country:"🇺🇸 USA",
+  { name:"Flux (Black Forest Labs)", cat:"Image Generation", icon:"bi-stars", country:"🇩🇪 Germany",
+    url:"https://blackforestlabs.ai",
+    tagline:"State-of-the-art open image generation — Flux.1 Pro rivals Midjourney in quality.",
+    price:"freemium",
+    pricing:{ free:"Flux.1 Schnell open-source and free; API trial credits", paid:"API pay-per-image; via Replicate/fal.ai from ~$0.003/img" },
+    tags:["Open source","State of art","Flux.1 Pro","Fast","API"] },
+
+  // ── VIDEO AI ──
+  { name:"Veo 3 (Google)", cat:"Video AI", icon:"bi-camera", country:"🇺🇸 USA",
+    url:"https://deepmind.google/technologies/veo",
     tagline:"Cinematic text-to-video with realistic lighting, physics-accurate motion and sound sync.",
     price:"paid",
-    pricing:{ paid:"Accessed via Vertex AI API; in Gemini Ultra plan ($249/mo); Google One AI Premium" },
+    pricing:{ paid:"Accessed via Vertex AI API; in Google One AI Premium ($19.99/mo) and Gemini Advanced" },
     tags:["Cinematic","Sound sync","Google","Physics-accurate","Branded visuals"] },
 
   { name:"HeyGen", cat:"Video AI", icon:"bi-person-video", country:"🇺🇸 USA",
+    url:"https://www.heygen.com",
     tagline:"AI avatars in 175+ languages — translate and lip-sync existing videos automatically.",
     price:"freemium",
     pricing:{ free:"Free: 1 free video (1 min) per month", paid:"$29/mo Creator; $89/mo Business; custom Enterprise" },
     tags:["Avatars","175+ languages","Video translation","Lip-sync","Dubbing"] },
 
   { name:"Sora (OpenAI)", cat:"Video AI", icon:"bi-film", country:"🇺🇸 USA",
+    url:"https://sora.com",
     tagline:"Creative short video generation from text — story-driven, cinematic, surreal.",
     price:"paid",
-    pricing:{ paid:"ChatGPT Plus $20/mo (50 low-quality vids); ChatGPT Pro $200/mo (500 HD 5-second vids); API coming" },
+    pricing:{ paid:"ChatGPT Plus $20/mo (50 low-quality vids); ChatGPT Pro $200/mo (500 HD 5-sec vids)" },
     tags:["Text-to-video","Creative","Story","Cinematic","Storyboard"] },
 
   { name:"Runway ML", cat:"Video AI", icon:"bi-play-circle", country:"🇺🇸 USA",
+    url:"https://runwayml.com",
     tagline:"Video generation + editing suite — Gen-3 Alpha, motion brush, video extension, inpainting.",
     price:"freemium",
     pricing:{ free:"Free: 125 credits one-time", paid:"$15/mo Standard (625 credits/mo); $35/mo Pro; $95/mo Unlimited" },
     tags:["Gen-3 Alpha","Motion brush","Inpainting","Video extend","Edit+generate"] },
 
   { name:"Synthesia", cat:"Video AI", icon:"bi-person-badge", country:"🇬🇧 UK",
+    url:"https://www.synthesia.io",
     tagline:"Corporate training videos with 240+ AI avatars, no camera or studio needed.",
     price:"paid",
     pricing:{ paid:"$29/mo Starter (10 mins/mo); $89/mo Creator; custom Enterprise" },
     tags:["Corporate training","240+ avatars","240 languages","No camera","Enterprise"] },
 
   { name:"Descript", cat:"Video AI", icon:"bi-waveform", country:"🇺🇸 USA",
+    url:"https://www.descript.com",
     tagline:"Edit video by editing text transcript — filler word removal, screen record, overdub voice.",
     price:"freemium",
     pricing:{ free:"Free: 1 hour transcription/mo, watermarked export", paid:"$24/mo Creator (10 hrs); $40/mo Business (30 hrs)" },
     tags:["Transcript edit","Overdub","Filler removal","Podcast","Screen record"] },
 
-  // ── AUDIO ──
+  { name:"Pika Labs", cat:"Video AI", icon:"bi-lightning-fill", country:"🇺🇸 USA",
+    url:"https://pika.art",
+    tagline:"Instant AI video generation and editing — text-to-video, image-to-video, video effects.",
+    price:"freemium",
+    pricing:{ free:"Free: 150 credits/mo (~30 short videos)", paid:"$8/mo Basic; $28/mo Standard; $58/mo Unlimited" },
+    tags:["Text-to-video","Image-to-video","Lip sync","Effects","Fast"] },
+
+  { name:"Luma AI (Dream Machine)", cat:"Video AI", icon:"bi-camera-reels", country:"🇺🇸 USA",
+    url:"https://lumalabs.ai",
+    tagline:"Photorealistic AI video from text or images — fast, high-fidelity motion and 3D capture.",
+    price:"freemium",
+    pricing:{ free:"Free: 30 generations/mo", paid:"$29.99/mo Plus (120 gens); $99.99/mo Pro (400 gens)" },
+    tags:["Photorealistic","Image-to-video","3D capture","Fast","Dream Machine"] },
+
+  { name:"Kling AI", cat:"Video AI", icon:"bi-record-circle", country:"🇨🇳 China",
+    url:"https://klingai.com",
+    tagline:"High-quality 2-min AI video generation with cinematic motion and realistic physics.",
+    price:"freemium",
+    pricing:{ free:"Free tier with daily credits", paid:"$9.99/mo Standard; $29.99/mo Pro — more monthly credits" },
+    tags:["2-minute videos","Cinematic","Physics","Chinese AI","High quality"] },
+
+  // ── AUDIO AI ──
   { name:"ElevenLabs", cat:"Audio AI", icon:"bi-mic", country:"🇺🇸 USA",
+    url:"https://elevenlabs.io",
     tagline:"Best AI voice cloning and text-to-speech — 30+ languages, hyper-realistic quality.",
     price:"freemium",
     pricing:{ free:"Free: 10,000 chars/mo, 3 custom voices", paid:"$5/mo Starter; $22/mo Creator; $99/mo Pro; $330/mo Scale" },
     tags:["Voice clone","TTS","30+ languages","API","Audiobooks"] },
 
   { name:"Suno AI", cat:"Audio AI", icon:"bi-music-note-beamed", country:"🇺🇸 USA",
+    url:"https://suno.ai",
     tagline:"Generate full songs with vocals, instruments and lyrics from a text prompt.",
     price:"freemium",
     pricing:{ free:"Free: 50 credits/day (≈10 songs)", paid:"$10/mo Pro (2,500 credits); $30/mo Premier (10,000 credits)" },
     tags:["Full songs","Vocals","Lyrics","Any genre","2-min songs"] },
 
   { name:"Udio", cat:"Audio AI", icon:"bi-vinyl", country:"🇺🇸 USA",
+    url:"https://www.udio.com",
     tagline:"High-quality AI music generation with advanced style control and tag-based composition.",
     price:"freemium",
     pricing:{ free:"Free: 600 credits/mo (≈50 songs)", paid:"$10/mo Standard (1,200/mo); $30/mo Pro (4,800/mo)" },
     tags:["Music generation","Style control","Tags","Stems","High quality"] },
 
   { name:"Murf AI", cat:"Audio AI", icon:"bi-speaker", country:"🇮🇳 India",
+    url:"https://murf.ai",
     tagline:"Studio-quality AI voiceovers in 120+ voices, 20+ languages. Sync with video.",
     price:"freemium",
     pricing:{ free:"Free: 10-min voice generation, 10GB storage, no download", paid:"$29/mo Basic; $39/mo Pro; $75/mo Enterprise" },
     tags:["Voiceover","120+ voices","20+ languages","Video sync","Presentations"] },
 
   { name:"Adobe Podcast AI", cat:"Audio AI", icon:"bi-broadcast", country:"🇺🇸 USA",
+    url:"https://podcast.adobe.com",
     tagline:"AI audio enhancement — remove background noise, enhance speech, mic check tools.",
     price:"freemium",
     pricing:{ free:"Enhance Speech tool: free (beta), limited monthly uses", paid:"Included in Adobe Creative Cloud plans from $59.99/mo" },
     tags:["Noise removal","Speech enhance","Podcast","Adobe CC","Mic check"] },
 
   { name:"LALAL.AI", cat:"Audio AI", icon:"bi-scissors", country:"🇪🇺 EU",
+    url:"https://www.lalal.ai",
     tagline:"Separate vocals, drums, instruments from any audio or video file — 90-stem splitting.",
     price:"freemium",
-    pricing:{ free:"Free: 90-second clip preview before purchase", paid:"$15 Lite (90 mins); $35 Standard (900 mins); $80 Plus (2100 mins) — one-time purchases" },
+    pricing:{ free:"Free: 90-second clip preview before purchase", paid:"$15 Lite (90 mins); $35 Standard (900 mins); $80 Plus (2,100 mins) — one-time" },
     tags:["Stem split","Vocals isolate","Instruments","One-time purchase","Video audio"] },
 
   // ── AUTOMATION ──
   { name:"Zapier", cat:"Automation", icon:"bi-arrow-left-right", country:"🇺🇸 USA",
+    url:"https://zapier.com",
     tagline:"Connect 7,000+ apps — build AI Zaps and multi-step Agents without any code.",
     price:"freemium",
-    pricing:{ free:"Free: 100 tasks/mo, 5 Zaps, basic apps", paid:"$29.99/mo Professional (750 tasks); $103.50/mo Team; $103.50+ Enterprise" },
+    pricing:{ free:"Free: 100 tasks/mo, 5 Zaps, basic apps", paid:"$29.99/mo Professional (750 tasks); $103.50/mo Team; custom Enterprise" },
     tags:["7,000+ apps","No-code","AI agents","Zaps","Automations"] },
 
   { name:"Make (Integromat)", cat:"Automation", icon:"bi-diagram-2", country:"🇨🇿 Czech Republic",
+    url:"https://www.make.com",
     tagline:"Visual scenario builder — more flexible and affordable than Zapier, 1,500+ apps.",
     price:"freemium",
-    pricing:{ free:"Free: 1,000 ops/mo, 2 active scenarios", paid:"$9/mo Core (10K ops); $16/mo Pro (10K ops, unlimited scenarios); $29/mo Teams" },
+    pricing:{ free:"Free: 1,000 ops/mo, 2 active scenarios", paid:"$9/mo Core (10K ops); $16/mo Pro (unlimited scenarios); $29/mo Teams" },
     tags:["Visual builder","1,500+ apps","Flexible","Affordable","Operations"] },
 
   { name:"n8n", cat:"Automation", icon:"bi-bezier2", country:"🇩🇪 Germany",
+    url:"https://n8n.io",
     tagline:"Self-hostable open-source automation — LLM-native agentic workflow chains.",
     price:"freemium",
-    pricing:{ free:"Self-host for free (unlimited); cloud free trial 14 days", paid:"$24/mo Starter (5 workflows); $60/mo Pro; Enterprise self-host custom" },
-    tags:["Open source","Self-host","LLM agents","Workflow chains","German company"] },
+    pricing:{ free:"Self-host for free (unlimited); 14-day cloud free trial", paid:"$24/mo Starter; $60/mo Pro; Enterprise self-host custom" },
+    tags:["Open source","Self-host","LLM agents","Workflow chains","Germany"] },
 
   { name:"Microsoft Power Automate", cat:"Automation", icon:"bi-microsoft", country:"🇺🇸 USA",
+    url:"https://powerautomate.microsoft.com",
     tagline:"Enterprise workflow automation across Microsoft 365, Azure and 1,000+ connectors.",
     price:"freemium",
     pricing:{ free:"Included with many Microsoft 365 plans (limited)", paid:"$15/mo per user Premium; $150/mo per flow Process" },
@@ -1047,74 +1082,93 @@ const TOOLS = [
 
   // ── PRODUCTIVITY ──
   { name:"Fireflies.ai", cat:"Productivity", icon:"bi-record-circle", country:"🇺🇸 USA",
+    url:"https://fireflies.ai",
     tagline:"AI meeting recorder — transcribes, summarises and extracts action items from calls.",
     price:"freemium",
     pricing:{ free:"Free: 800 mins storage, limited AI summaries", paid:"$18/mo Pro; $29/mo Business; $39/mo AskFred AI" },
     tags:["Meetings","Transcription","Action items","Zoom","Google Meet"] },
 
   { name:"ClickUp Brain", cat:"Productivity", icon:"bi-kanban", country:"🇺🇸 USA",
+    url:"https://clickup.com",
     tagline:"AI project management — write briefs, summarise tasks, auto-generate subtasks.",
     price:"freemium",
     pricing:{ free:"Free plan includes ClickUp (no AI Brain)", paid:"$7/mo Unlimited + $5/mo Brain add-on; $12/mo Business + Brain included" },
     tags:["Project mgmt","AI tasks","Briefs","Summaries","Automations"] },
 
   { name:"Motion", cat:"Productivity", icon:"bi-calendar-check", country:"🇺🇸 USA",
+    url:"https://www.usemotion.com",
     tagline:"AI calendar + task manager — automatically schedules your day to maximise output.",
     price:"paid",
     pricing:{ paid:"$34/mo Individual; $20/mo Business per seat — 7-day free trial" },
     tags:["Auto-schedule","Calendar","Tasks","Priorities","Deep work"] },
 
   { name:"Fathom", cat:"Productivity", icon:"bi-people", country:"🇺🇸 USA",
+    url:"https://fathom.video",
     tagline:"Free AI meeting recorder — highlights, summaries and follow-up emails automatically.",
     price:"freemium",
-    pricing:{ free:"Free forever for individuals — unlimited recordings, highlights and summaries", paid:"$19/mo Premium ($15/mo annual); $29/mo Team Edition" },
+    pricing:{ free:"Free forever for individuals — unlimited recordings, highlights and summaries", paid:"$19/mo Premium; $29/mo Team Edition" },
     tags:["Free forever","Meetings","Zoom","Summaries","Follow-up emails"] },
+
+  { name:"Otter.ai", cat:"Productivity", icon:"bi-mic-fill", country:"🇺🇸 USA",
+    url:"https://otter.ai",
+    tagline:"Real-time meeting transcription and AI summaries with speaker identification.",
+    price:"freemium",
+    pricing:{ free:"Free: 300 min/mo transcription, 30-min max per meeting", paid:"$16.99/mo Pro; $30/mo Business" },
+    tags:["Transcription","Real-time","Speaker ID","Zoom","Meeting notes"] },
 
   // ── DESIGN ──
   { name:"Figma AI", cat:"Design", icon:"bi-vector-pen", country:"🇺🇸 USA",
+    url:"https://www.figma.com",
     tagline:"AI design tools inside Figma — auto-layout, content fill, renaming and first-draft generation.",
     price:"freemium",
     pricing:{ free:"Figma free plan (3 projects) includes basic AI features", paid:"$15/mo Professional; $45/mo Organization; $75/mo Enterprise" },
     tags:["UI/UX","Auto-layout","Prototype","Design system","Collaboration"] },
 
   { name:"Canva AI", cat:"Design", icon:"bi-image-alt", country:"🇦🇺 Australia",
+    url:"https://www.canva.com",
     tagline:"Magic design, AI image generation, background remover and text-to-image for marketing.",
     price:"freemium",
     pricing:{ free:"Free: templates, basic Magic tools, limited AI", paid:"$15/mo Canva Pro; $30/mo Teams — all AI features included" },
     tags:["Social graphics","Magic tools","Background remove","Templates","Brand kit"] },
 
-  { name:"Adobe Firefly (Design)", cat:"Design", icon:"bi-brush", country:"🇺🇸 USA",
-    tagline:"Generative fill, generative expand, text effects across Photoshop and Illustrator.",
-    price:"freemium",
-    pricing:{ free:"25 free generative credits/mo with free Adobe account", paid:"$9.99/mo Firefly; included in CC All Apps $59.99/mo" },
-    tags:["Photoshop","Generative fill","Illustrator","Commercial safe","CC"] },
-
   { name:"Looka", cat:"Design", icon:"bi-award", country:"🇨🇦 Canada",
+    url:"https://looka.com",
     tagline:"AI logo and brand kit generator — logo, business cards, social kit and brand guidelines.",
     price:"paid",
-    pricing:{ free:"Generate logos free (no download)", paid:"$20 Basic logo (PNG); $65 Premium (SVG, EPS, all files); $96/yr Brand Kit subscription" },
+    pricing:{ free:"Generate logos free (no download)", paid:"$20 Basic logo (PNG); $65 Premium (SVG, EPS); $96/yr Brand Kit subscription" },
     tags:["Logo","Brand kit","Business cards","Startups","One-time purchase"] },
+
+  { name:"Khroma", cat:"Design", icon:"bi-palette2", country:"🇺🇸 USA",
+    url:"https://www.khroma.co",
+    tagline:"AI colour palette generator — learn your preferences and generate infinite palettes.",
+    price:"free",
+    pricing:{ free:"Completely free — no account required for basic palette generation" },
+    tags:["Colour palettes","UI design","Brand","Free","AI colour"] },
 
   // ── SALES & CRM ──
   { name:"Salesforce Einstein", cat:"Sales & CRM", icon:"bi-cloud-lightning", country:"🇺🇸 USA",
+    url:"https://www.salesforce.com/artificial-intelligence",
     tagline:"AI inside Salesforce — lead scoring, opportunity forecasting, email drafting and analytics.",
     price:"enterprise",
     pricing:{ paid:"Einstein add-on: $75/user/mo on top of Salesforce plans (from $25/user/mo)" },
     tags:["CRM","Lead scoring","Forecasting","Enterprise","Einstein Copilot"] },
 
   { name:"HubSpot Sales AI", cat:"Sales & CRM", icon:"bi-shop-window", country:"🇺🇸 USA",
+    url:"https://www.hubspot.com/products/sales",
     tagline:"AI follow-up emails, deal intelligence, meeting scheduling and pipeline management.",
     price:"freemium",
     pricing:{ free:"Free CRM forever — unlimited contacts, deals, emails (limited)", paid:"$20/mo Starter; $500/mo Professional; $1,200/mo Enterprise" },
     tags:["Free CRM","Follow-ups","Deal intel","Pipeline","SMB to Enterprise"] },
 
   { name:"Gong.io", cat:"Sales & CRM", icon:"bi-telephone-inbound", country:"🇺🇸 USA",
+    url:"https://www.gong.io",
     tagline:"Revenue intelligence AI — records, transcribes and analyses every call and email.",
     price:"enterprise",
     pricing:{ paid:"~$1,400/user/yr platform fee; custom enterprise contract — no public pricing" },
     tags:["Call analysis","Revenue intel","Forecasting","Deal coaching","Pipeline"] },
 
   { name:"Clay", cat:"Sales & CRM", icon:"bi-person-plus", country:"🇺🇸 USA",
+    url:"https://www.clay.com",
     tagline:"AI data enrichment + personalised outreach from 50+ data sources in one spreadsheet.",
     price:"freemium",
     pricing:{ free:"Free: 100 credits/mo", paid:"$149/mo Starter; $349/mo Explorer; $800/mo Pro; custom Team" },
@@ -1122,18 +1176,21 @@ const TOOLS = [
 
   // ── SOCIAL MEDIA ──
   { name:"Buffer", cat:"Social Media", icon:"bi-share", country:"🇺🇸 USA",
+    url:"https://buffer.com",
     tagline:"Simple AI-assisted post scheduling and analytics across Instagram, X, LinkedIn, TikTok.",
     price:"freemium",
     pricing:{ free:"Free: 3 channels, 10 scheduled posts/channel", paid:"$6/mo Essentials; $12/mo Team; $120/mo Agency" },
     tags:["Scheduling","Analytics","Instagram","TikTok","LinkedIn"] },
 
   { name:"Hootsuite", cat:"Social Media", icon:"bi-broadcast-pin", country:"🇨🇦 Canada",
+    url:"https://www.hootsuite.com",
     tagline:"Enterprise social media management with AI content suggestions and bulk scheduling.",
     price:"paid",
     pricing:{ paid:"$99/mo Professional (10 accounts); $249/mo Team; $739/mo Business — 30-day free trial" },
     tags:["Enterprise","Multi-platform","Bulk scheduling","AI captions","Analytics"] },
 
   { name:"Sprout Social", cat:"Social Media", icon:"bi-tree", country:"🇺🇸 USA",
+    url:"https://sproutsocial.com",
     tagline:"AI social media management — scheduling, social listening, analytics and CRM features.",
     price:"paid",
     pricing:{ paid:"$249/mo Standard; $399/mo Professional; $499/mo Advanced — 30-day free trial" },
@@ -1141,37 +1198,50 @@ const TOOLS = [
 
   // ── DATA & ANALYTICS ──
   { name:"Julius AI", cat:"Data & Analytics", icon:"bi-table", country:"🇺🇸 USA",
+    url:"https://julius.ai",
     tagline:"Chat with your CSV, Excel or database — get instant charts, stats and AI insights.",
     price:"freemium",
     pricing:{ free:"Free: 15 messages/mo, basic charts", paid:"$25/mo Essential; $45/mo Pro — unlimited messages, advanced charts" },
     tags:["CSV chat","Excel AI","Charts","Stats","Instant insights"] },
 
   { name:"Hex AI", cat:"Data & Analytics", icon:"bi-hexagon", country:"🇺🇸 USA",
+    url:"https://hex.tech",
     tagline:"Collaborative data notebook — AI SQL generation, Python help, chart builder.",
     price:"freemium",
     pricing:{ free:"Free: 1 workspace, unlimited public projects, 100 AI requests/mo", paid:"$24/mo Starter; $60/mo Pro; custom Team" },
     tags:["Data notebook","SQL AI","Python","Collaboration","Charts"] },
 
   { name:"Tableau AI", cat:"Data & Analytics", icon:"bi-bar-chart-steps", country:"🇺🇸 USA",
+    url:"https://www.tableau.com",
     tagline:"Ask Tableau questions in natural language — Einstein Copilot for business intelligence.",
     price:"paid",
     pricing:{ paid:"$75/user/mo Creator; $42/user/mo Explorer; $15/user/mo Viewer — 14-day free trial" },
     tags:["BI","NL queries","Visualisation","Salesforce","Dashboards"] },
 
+  { name:"Microsoft Copilot for Power BI", cat:"Data & Analytics", icon:"bi-bar-chart-fill", country:"🇺🇸 USA",
+    url:"https://powerbi.microsoft.com",
+    tagline:"AI-powered BI — natural language queries, auto-report generation and anomaly detection.",
+    price:"paid",
+    pricing:{ free:"Power BI Desktop free; Power BI service free (limited)", paid:"$10/user/mo Power BI Pro; $20/user/mo Premium Per User" },
+    tags:["Microsoft","NL queries","Dashboards","DAX AI","Enterprise BI"] },
+
   // ── EDUCATION ──
   { name:"Khanmigo", cat:"Education", icon:"bi-mortarboard", country:"🇺🇸 USA",
+    url:"https://www.khanmigo.ai",
     tagline:"Khan Academy's Socratic AI tutor — guides students without giving direct answers.",
     price:"freemium",
     pricing:{ free:"Free for students and teachers in the USA (grant-funded)", paid:"$44/yr for individuals (non-US or premium)" },
     tags:["Tutoring","Socratic","K-12","Math","Writing coach"] },
 
   { name:"Duolingo Max", cat:"Education", icon:"bi-translate", country:"🇺🇸 USA",
+    url:"https://www.duolingo.com",
     tagline:"AI language learning with Roleplay (practice conversations) and Explain My Answer.",
     price:"freemium",
-    pricing:{ free:"Free: basic lessons, limited hearts", paid:"$14.99/mo Super; $29.99/mo Max (AI features — Roleplay + Explain)" },
+    pricing:{ free:"Free: basic lessons, limited hearts", paid:"$14.99/mo Super; $29.99/mo Max (AI Roleplay + Explain)" },
     tags:["Languages","Roleplay","Adaptive","Streaks","GPT-4 powered"] },
 
   { name:"Quizlet AI", cat:"Education", icon:"bi-card-checklist", country:"🇺🇸 USA",
+    url:"https://quizlet.com",
     tagline:"AI flashcards, practice tests and study guides generated from your notes or PDFs.",
     price:"freemium",
     pricing:{ free:"Free: unlimited flashcard sets, basic study modes", paid:"$7.99/mo Plus — unlimited AI features, offline access, no ads" },
@@ -1179,62 +1249,72 @@ const TOOLS = [
 
   // ── LEGAL & FINANCE ──
   { name:"Harvey AI", cat:"Legal & Finance", icon:"bi-briefcase", country:"🇺🇸 USA",
+    url:"https://www.harvey.ai",
     tagline:"AI for law firms — contract review, legal research, document drafting and due diligence.",
     price:"enterprise",
     pricing:{ paid:"Enterprise only — custom pricing, minimum seat requirements, no public plans" },
     tags:["Legal","Contract review","Due diligence","Law firms","Enterprise"] },
 
   { name:"Casetext (Thomson Reuters)", cat:"Legal & Finance", icon:"bi-journal-law", country:"🇺🇸 USA",
+    url:"https://casetext.com",
     tagline:"AI legal research — find case law, statutes and build arguments with CoCounsel.",
     price:"paid",
     pricing:{ paid:"~$9,000+/yr per attorney — Thomson Reuters Westlaw bundle pricing" },
     tags:["Case law","Legal research","Statutes","CoCounsel","Thomson Reuters"] },
 
   { name:"BloombergGPT", cat:"Legal & Finance", icon:"bi-currency-exchange", country:"🇺🇸 USA",
+    url:"https://www.bloomberg.com/professional/blog/bloomberggpt-50-billion-parameter-llm-tuned-finance",
     tagline:"Finance-trained LLM on Bloomberg's proprietary data — market analysis, NLP tasks.",
     price:"enterprise",
     pricing:{ paid:"Bloomberg Terminal subscribers ($25K+/yr) with Bloomberg AI features included" },
     tags:["Finance","Bloomberg","Markets","Earnings","NLP finance tasks"] },
 
-  // ── NO-CODE ──
+  // ── NO-CODE / APP BUILDER ──
   { name:"Lovable", cat:"No-Code / App Builder", icon:"bi-heart-pulse", country:"🇸🇪 Sweden",
+    url:"https://lovable.dev",
     tagline:"Build full-stack web apps from English descriptions — Supabase backend, Vercel deploy.",
     price:"freemium",
     pricing:{ free:"Free: 5 messages/day", paid:"$20/mo Starter (100 msgs); $50/mo Launch (400 msgs); $100/mo Scale (1,500 msgs)" },
     tags:["Web apps","Full-stack","Supabase","Vercel","Natural language"] },
 
   { name:"Bubble", cat:"No-Code / App Builder", icon:"bi-circle-square", country:"🇺🇸 USA",
+    url:"https://bubble.io",
     tagline:"Visual no-code app builder with AI-generated UI, database and workflow logic.",
     price:"freemium",
     pricing:{ free:"Free: build and test (bubble.io subdomain, Bubble branding)", paid:"$32/mo Starter; $134/mo Growth; $399/mo Team" },
     tags:["No-code","Database","Workflows","Visual builder","Custom logic"] },
 
   { name:"Webflow AI", cat:"No-Code / App Builder", icon:"bi-globe", country:"🇺🇸 USA",
+    url:"https://webflow.com",
     tagline:"AI-assisted professional website building with CMS, ecommerce and custom animations.",
     price:"freemium",
     pricing:{ free:"Free: 2 projects (Webflow branding, no custom domain)", paid:"$23/mo Basic; $39/mo CMS; $79/mo Business — per site" },
     tags:["Website","CMS","Ecommerce","Animations","Professional"] },
 
   { name:"Wix AI", cat:"No-Code / App Builder", icon:"bi-pen-fill", country:"🇮🇱 Israel",
+    url:"https://www.wix.com",
     tagline:"AI site generator — describe your business and get a full website in seconds.",
     price:"freemium",
     pricing:{ free:"Free: publish on wix.com subdomain (Wix ads shown)", paid:"$17/mo Light; $29/mo Core; $36/mo Business; $159/mo Business Elite" },
     tags:["AI site builder","Small business","Ecommerce","Templates","ADI"] },
 
-  // ── PRESENTATION ──
+  // ── PRESENTATIONS ──
   { name:"Gamma", cat:"Presentations", icon:"bi-easel2", country:"🇺🇸 USA",
+    url:"https://gamma.app",
     tagline:"One-prompt AI presentations, docs and pages with beautiful auto-designed layouts.",
     price:"freemium",
     pricing:{ free:"Free: 400 AI creation credits (≈3 full decks)", paid:"$10/mo Plus; $20/mo Pro — unlimited AI creations, custom domains, analytics" },
     tags:["Slides","Docs","One-prompt","Beautiful auto-design","Web publish"] },
 
   { name:"Beautiful.ai", cat:"Presentations", icon:"bi-stars", country:"🇺🇸 USA",
+    url:"https://www.beautiful.ai",
     tagline:"Smart AI slide templates that auto-adjust design as you add or remove content.",
     price:"paid",
     pricing:{ paid:"$12/mo Pro; $40/mo Team; Enterprise custom — 14-day free trial" },
     tags:["Smart templates","Auto-design","Team","Brand kit","Presenter mode"] },
 
   { name:"Tome", cat:"Presentations", icon:"bi-book-half", country:"🇺🇸 USA",
+    url:"https://tome.app",
     tagline:"AI storytelling and presentation tool — narrative-first design with live data embeds.",
     price:"freemium",
     pricing:{ free:"Free: 500 AI prompt credits", paid:"$20/mo Pro (unlimited AI); custom Enterprise" },
@@ -1242,12 +1322,14 @@ const TOOLS = [
 
   // ── HR & RECRUITING ──
   { name:"Paradox (Olivia)", cat:"HR & Recruiting", icon:"bi-person-check", country:"🇺🇸 USA",
+    url:"https://www.paradox.ai",
     tagline:"AI recruiting chatbot — screens candidates, schedules interviews and automates onboarding.",
     price:"enterprise",
     pricing:{ paid:"Enterprise custom — no public pricing, tailored to organisation size and ATS" },
     tags:["Recruiting","Chatbot","Scheduling","Onboarding","ATS integration"] },
 
   { name:"Textio", cat:"HR & Recruiting", icon:"bi-file-person", country:"🇺🇸 USA",
+    url:"https://textio.com",
     tagline:"AI-augmented writing for unbiased job descriptions, performance feedback and emails.",
     price:"paid",
     pricing:{ paid:"$70/month/user (platform minimum applies); custom enterprise contract" },
@@ -1255,18 +1337,21 @@ const TOOLS = [
 
   // ── CUSTOMER SUPPORT ──
   { name:"Intercom AI (Fin)", cat:"Customer Support", icon:"bi-headset", country:"🇮🇪 Ireland",
+    url:"https://www.intercom.com",
     tagline:"AI support agent that resolves up to 50% of tickets autonomously — instant answers.",
     price:"paid",
     pricing:{ paid:"Intercom Essential $39/seat/mo + Fin AI $0.99/resolution; or Fin AI Agent standalone at $0.99/resolution" },
     tags:["Ticket resolution","50% auto-resolve","Chat","Help desk","AI agent"] },
 
   { name:"Zendesk AI", cat:"Customer Support", icon:"bi-life-preserver", country:"🇺🇸 USA",
+    url:"https://www.zendesk.com",
     tagline:"AI intent detection, ticket routing, agent assist and self-service across email, chat, voice.",
     price:"paid",
-    pricing:{ paid:"Suite Team $55/agent/mo; Suite Growth $89/agent/mo; Suite Professional $115/agent/mo; Advanced AI add-on $50/agent/mo" },
+    pricing:{ paid:"Suite Team $55/agent/mo; Suite Growth $89/agent/mo; Advanced AI add-on $50/agent/mo" },
     tags:["Intent AI","Auto-routing","Agent assist","Multi-channel","Enterprise"] },
 
   { name:"Tidio (Lyro)", cat:"Customer Support", icon:"bi-chat-left-text", country:"🇵🇱 Poland",
+    url:"https://www.tidio.com",
     tagline:"AI chatbot for SMBs — answers FAQs, captures leads and handles support automatically.",
     price:"freemium",
     pricing:{ free:"Free: Lyro 50 conversations/mo, basic live chat, 3 operators", paid:"$29/mo Starter; $59/mo Growth; $749/mo Plus" },
@@ -1274,18 +1359,21 @@ const TOOLS = [
 
   // ── CYBERSECURITY ──
   { name:"Darktrace", cat:"Cybersecurity", icon:"bi-shield-shaded", country:"🇬🇧 UK",
+    url:"https://darktrace.com",
     tagline:"AI cyber defence that learns your network and auto-responds to threats in real time.",
     price:"enterprise",
     pricing:{ paid:"Custom enterprise pricing based on network size — no public plans" },
     tags:["Threat detection","Auto-response","Network AI","Zero-day","Self-learning"] },
 
   { name:"CrowdStrike Falcon AI", cat:"Cybersecurity", icon:"bi-bug", country:"🇺🇸 USA",
+    url:"https://www.crowdstrike.com",
     tagline:"AI endpoint protection, threat intelligence and XDR across cloud, identity and endpoint.",
     price:"paid",
     pricing:{ paid:"Falcon Go $59.99/device/yr; Pro $99.99; Enterprise custom; 15-day free trial" },
     tags:["Endpoint","Threat intel","XDR","EDR","Cloud security"] },
 
   { name:"SentinelOne AI", cat:"Cybersecurity", icon:"bi-cpu", country:"🇺🇸 USA",
+    url:"https://www.sentinelone.com",
     tagline:"Autonomous AI security — prevents, detects and responds across endpoint, cloud and identity.",
     price:"paid",
     pricing:{ paid:"Singularity Core $79/endpoint/yr; Control $159; Complete $229; custom Enterprise" },
@@ -1293,18 +1381,21 @@ const TOOLS = [
 
   // ── TRANSLATION ──
   { name:"DeepL", cat:"Translation", icon:"bi-translate", country:"🇩🇪 Germany",
+    url:"https://www.deepl.com",
     tagline:"Best translation accuracy for European languages — nuanced, natural, privacy-respecting.",
     price:"freemium",
     pricing:{ free:"Free: 500,000 chars/mo translated, 3 document uploads/mo", paid:"€8.74/mo Starter; €25.52/mo Advanced; €50.79/mo Ultimate — GDPR compliant" },
     tags:["European languages","Accuracy","Privacy","GDPR","Document translation"] },
 
-  { name:"Google Translate AI", cat:"Translation", icon:"bi-globe2", country:"🇺🇸 USA",
+  { name:"Google Translate", cat:"Translation", icon:"bi-globe2", country:"🇺🇸 USA",
+    url:"https://translate.google.com",
     tagline:"133 languages, camera translate, offline mode, conversation mode and website translation.",
     price:"free",
-    pricing:{ free:"Completely free for all consumer features; Google Cloud Translation API has usage-based pricing" },
+    pricing:{ free:"Completely free for all consumer features; Cloud Translation API has usage-based pricing" },
     tags:["133 languages","Camera","Offline","Conversation mode","Free forever"] },
 
   { name:"HeyGen Video Translation", cat:"Translation", icon:"bi-camera-reels", country:"🇺🇸 USA",
+    url:"https://www.heygen.com/video-translate",
     tagline:"Translate entire videos with AI lip-sync in 175+ languages — keep original speaker voice.",
     price:"freemium",
     pricing:{ free:"1 free video/mo (1 min)", paid:"$29/mo Creator; $89/mo Business — translation minutes included in plans" },
@@ -1316,52 +1407,43 @@ const TOOLS = [
 // CATEGORY CONFIG
 // ─────────────────────────────────────────────
 const CAT_CONFIG = {
-  "AI Chatbots":             { icon:"bi-chat-dots-fill",  color:"#6c63ff" },
-  "Coding":                  { icon:"bi-code-slash",       color:"#00d4aa" },
-  "Research":                { icon:"bi-journal-text",     color:"#3b8bd4" },
-  "Digital Marketing":       { icon:"bi-megaphone-fill",   color:"#ff6b6b" },
-  "Marketing":               { icon:"bi-envelope-paper",   color:"#f0a500" },
-  "SEO":                     { icon:"bi-search",           color:"#639922" },
-  "Writing":                 { icon:"bi-pen-fill",         color:"#5bc0de" },
-  "Image Generation":        { icon:"bi-palette-fill",     color:"#d4537e" },
-  "Video AI":                { icon:"bi-camera-video-fill",color:"#993555" },
-  "Audio AI":                { icon:"bi-music-note-beamed",color:"#0f6e56" },
-  "Automation":              { icon:"bi-gear-wide-connected",color:"#534ab7"},
-  "Productivity":            { icon:"bi-lightning-charge-fill",color:"#ba7517"},
-  "Design":                  { icon:"bi-brush-fill",       color:"#e8593c" },
-  "Sales & CRM":             { icon:"bi-graph-up-arrow",   color:"#3b6d11" },
-  "Social Media":            { icon:"bi-share-fill",       color:"#185fa5" },
-  "Data & Analytics":        { icon:"bi-bar-chart-fill",   color:"#854f0b" },
-  "Education":               { icon:"bi-mortarboard-fill", color:"#3c3489" },
-  "Legal & Finance":         { icon:"bi-briefcase-fill",   color:"#0c447c" },
-  "No-Code / App Builder":   { icon:"bi-puzzle-fill",      color:"#993c1d" },
-  "Presentations":           { icon:"bi-easel-fill",       color:"#72243e" },
-  "HR & Recruiting":         { icon:"bi-person-check-fill",color:"#63990a" },
-  "Customer Support":        { icon:"bi-headset",          color:"#5f5e5a" },
-  "Cybersecurity":           { icon:"bi-shield-fill-check",color:"#a32d2d" },
-  "Translation":             { icon:"bi-translate",        color:"#185fa5" },
+  "AI Chatbots":             { icon:"bi-chat-dots-fill",      color:"#6c63ff" },
+  "Coding":                  { icon:"bi-code-slash",           color:"#00d4aa" },
+  "Research":                { icon:"bi-journal-text",         color:"#3b8bd4" },
+  "Digital Marketing":       { icon:"bi-megaphone-fill",       color:"#ff6b6b" },
+  "Marketing":               { icon:"bi-envelope-paper",       color:"#f0a500" },
+  "SEO":                     { icon:"bi-search",               color:"#639922" },
+  "Writing":                 { icon:"bi-pen-fill",             color:"#5bc0de" },
+  "Image Generation":        { icon:"bi-palette-fill",         color:"#d4537e" },
+  "Video AI":                { icon:"bi-camera-video-fill",    color:"#993555" },
+  "Audio AI":                { icon:"bi-music-note-beamed",    color:"#0f6e56" },
+  "Automation":              { icon:"bi-gear-wide-connected",  color:"#534ab7" },
+  "Productivity":            { icon:"bi-lightning-charge-fill",color:"#ba7517" },
+  "Design":                  { icon:"bi-brush-fill",           color:"#e8593c" },
+  "Sales & CRM":             { icon:"bi-graph-up-arrow",       color:"#3b6d11" },
+  "Social Media":            { icon:"bi-share-fill",           color:"#185fa5" },
+  "Data & Analytics":        { icon:"bi-bar-chart-fill",       color:"#854f0b" },
+  "Education":               { icon:"bi-mortarboard-fill",     color:"#3c3489" },
+  "Legal & Finance":         { icon:"bi-briefcase-fill",       color:"#0c447c" },
+  "No-Code / App Builder":   { icon:"bi-puzzle-fill",          color:"#993c1d" },
+  "Presentations":           { icon:"bi-easel-fill",           color:"#72243e" },
+  "HR & Recruiting":         { icon:"bi-person-check-fill",    color:"#63990a" },
+  "Customer Support":        { icon:"bi-headset",              color:"#5f5e5a" },
+  "Cybersecurity":           { icon:"bi-shield-fill-check",    color:"#a32d2d" },
+  "Translation":             { icon:"bi-translate",            color:"#185fa5" },
 };
 
-// ─────────────────────────────────────────────
-// STATE
-// ─────────────────────────────────────────────
 let activePrice = 'all';
 let activeCat   = 'all';
 let searchQ     = '';
 
-// ─────────────────────────────────────────────
-// INIT
-// ─────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
-  // Update stat counts
   document.getElementById('total-count').textContent = TOOLS.length + '+';
   document.getElementById('free-count').textContent = TOOLS.filter(t=>t.price==='free').length;
   document.getElementById('freemium-count').textContent = TOOLS.filter(t=>t.price==='freemium').length;
   document.getElementById('paid-count').textContent = TOOLS.filter(t=>t.price==='paid').length;
-
   buildCatTabs();
   render();
-
   document.getElementById('search').addEventListener('input', e => {
     searchQ = e.target.value.toLowerCase().trim();
     render();
@@ -1372,7 +1454,6 @@ function buildCatTabs() {
   const cats = ['all', ...Object.keys(CAT_CONFIG)];
   const container = document.getElementById('catTabs');
   container.innerHTML = '';
-
   cats.forEach(cat => {
     const count = cat === 'all' ? TOOLS.length : TOOLS.filter(t=>t.cat===cat).length;
     if (cat !== 'all' && count === 0) return;
@@ -1423,13 +1504,12 @@ function getPricingDetailHTML(pricing) {
 
 function render() {
   let filtered = TOOLS.filter(t => {
-    const matchCat   = activeCat === 'all' || t.cat === activeCat;
-    const matchPrice = activePrice === 'all' || t.price === activePrice;
+    const matchCat    = activeCat === 'all' || t.cat === activeCat;
+    const matchPrice  = activePrice === 'all' || t.price === activePrice;
     const matchSearch = !searchQ || [t.name, t.cat, t.tagline, ...t.tags, t.country].join(' ').toLowerCase().includes(searchQ);
     return matchCat && matchPrice && matchSearch;
   });
 
-  // Update results info
   const info = document.getElementById('resultsInfo');
   if (searchQ || activeCat !== 'all' || activePrice !== 'all') {
     info.innerHTML = `Showing <strong>${filtered.length}</strong> tool${filtered.length!==1?'s':''} ${searchQ?`matching "<strong>${searchQ}</strong>"`:''}`;
@@ -1444,7 +1524,6 @@ function render() {
     return;
   }
 
-  // Group by category
   const grouped = {};
   filtered.forEach(t => {
     if (!grouped[t.cat]) grouped[t.cat] = [];
@@ -1481,6 +1560,9 @@ function render() {
         <div class="tool-tags">
           ${t.tags.map(tg => `<span class="tool-tag">${tg}</span>`).join('')}
         </div>
+        <a href="${t.url}" target="_blank" rel="noopener noreferrer" class="visit-btn">
+          <i class="bi bi-box-arrow-up-right"></i> Visit site
+        </a>
       </div>`;
     });
 
@@ -1489,7 +1571,6 @@ function render() {
 
   out.innerHTML = html;
 }
-// check
 </script>
 </body>
 </html>
