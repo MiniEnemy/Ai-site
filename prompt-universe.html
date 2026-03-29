@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prompt Universe — AI Prompt Builder</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg:#07080f;--bg2:#0d0e1b;--bg3:#111221;--card:#161727;--card2:#1c1d30;
+      --border:rgba(255,255,255,0.07);--bh:rgba(255,255,255,0.13);
+      --text:#eeeef8;--text2:#8484a8;--text3:#4e4e68;
+      --role-c:#b0a8ff;--role-bg:rgba(124,111,255,0.12);--role-bd:rgba(124,111,255,0.3);
+      --ctx-c:#7dd3fc;--ctx-bg:rgba(56,189,248,0.10);--ctx-bd:rgba(56,189,248,0.28);
+      --task-c:#86efac;--task-bg:rgba(134,239,172,0.10);--task-bd:rgba(134,239,172,0.28);
+      --fmt-c:#fbbf24;--fmt-bg:rgba(251,191,36,0.10);--fmt-bd:rgba(251,191,36,0.28);
+      --con-c:#f9a8d4;--con-bg:rgba(249,168,212,0.10);--con-bd:rgba(249,168,212,0.28);
+      --accent:#7c6fff;--green:#00e5b4;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.6;min-height:100vh}
+    body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.45}
+    .page-head{text-align:center;padding:52px 20px 36px;position:relative;z-index:1}
+    .page-eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--role-bg);border:1px solid var(--role-bd);border-radius:99px;padding:4px 14px;font-size:11.5px;font-weight:600;color:var(--role-c);letter-spacing:.06em;text-transform:uppercase;margin-bottom:16px}
+    h1{font-family:'Syne',sans-serif;font-size:clamp(1.9rem,5vw,3rem);font-weight:800;letter-spacing:-.03em;line-height:1.1;margin-bottom:10px}
+    .grad{background:linear-gradient(135deg,#7c6fff 0%,#ff6b9d 50%,#00e5b4 90%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .page-sub{color:var(--text2);font-size:.93rem;font-weight:300;max-width:520px;margin:0 auto}
+    .back-link{color:var(--text2);font-size:13px;text-decoration:none;display:inline-flex;align-items:center;gap:5px;margin-bottom:20px;transition:color .15s}
+    .back-link:hover{color:var(--text)}
+    .z1{position:relative;z-index:1}
+    .ob-banner{background:linear-gradient(135deg,rgba(124,111,255,.13),rgba(0,229,180,.06));border:1px solid rgba(124,111,255,.28);border-radius:16px;padding:18px 22px;position:relative;margin-bottom:20px}
+    .ob-close{position:absolute;top:10px;right:14px;background:none;border:none;color:var(--text3);font-size:18px;cursor:pointer;line-height:1;transition:color .15s}
+    .ob-close:hover{color:var(--text)}
+    .ob-title{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--role-c);margin-bottom:4px}
+    .ob-desc{font-size:12.5px;color:var(--text2);margin-bottom:12px}
+    .ob-steps{display:flex;flex-wrap:wrap;gap:8px}
+    .ob-step{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:8px;padding:7px 12px;font-size:12px;color:var(--text2)}
+    .ob-num{width:20px;height:20px;border-radius:50%;background:var(--accent);color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .mode-bar{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap}
+    .mode-tab{padding:7px 16px;border-radius:9px;border:1px solid var(--border);background:var(--bg3);color:var(--text2);font-size:12.5px;font-weight:500;cursor:pointer;transition:all .15s;white-space:nowrap}
+    .mode-tab:hover{background:var(--card2);color:var(--text);border-color:var(--bh)}
+    .mode-tab.active{background:rgba(124,111,255,.15);border-color:rgba(124,111,255,.4);color:var(--role-c);font-weight:600}
+    .mode-section{display:none}.mode-section.active{display:block}
+    .ai-box{background:linear-gradient(135deg,rgba(124,111,255,.1),rgba(0,229,180,.05));border:1px solid rgba(124,111,255,.3);border-radius:16px;padding:20px;margin-bottom:20px}
+    .ai-box-title{font-family:'Syne',sans-serif;font-size:13.5px;font-weight:700;color:var(--role-c);margin-bottom:3px;display:flex;align-items:center;gap:8px}
+    .ai-box-sub{font-size:12px;color:var(--text2);margin-bottom:14px}
+    .ai-idea-input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13.5px;outline:none;resize:none;min-height:60px;transition:border-color .2s,box-shadow .2s}
+    .ai-idea-input:focus{border-color:rgba(124,111,255,.5);box-shadow:0 0 0 3px rgba(124,111,255,.15)}
+    .ai-idea-input::placeholder{color:var(--text3)}
+    .ai-row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;align-items:center}
+    .ai-cat-sel{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:7px 12px;color:var(--text2);font-family:'DM Sans',sans-serif;font-size:12.5px;outline:none;cursor:pointer;transition:border-color .15s}
+    .ai-cat-sel:focus{border-color:rgba(124,111,255,.5)}
+    .ai-cat-sel option{background:var(--card)}
+    .ai-gen-btn{display:inline-flex;align-items:center;gap:7px;padding:8px 18px;border-radius:9px;border:none;background:linear-gradient(135deg,#7c6fff,#5a4ed1);color:#fff;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap}
+    .ai-gen-btn:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 4px 20px rgba(124,111,255,.4)}
+    .ai-gen-btn:disabled{opacity:.55;cursor:not-allowed;transform:none;box-shadow:none}
+    .spinner{width:13px;height:13px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .65s linear infinite;display:inline-block;vertical-align:middle}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .ai-error{color:#f87171;font-size:12px;margin-top:8px;display:none}
+    .ai-loading-bar{height:2px;border-radius:2px;background:linear-gradient(90deg,#7c6fff,#00e5b4);width:0;margin-top:10px;transition:width .3s}
+    .ai-loading-bar.running{animation:aibar 1.8s ease-in-out infinite}
+    @keyframes aibar{0%{width:0;opacity:1}70%{width:85%;opacity:1}100%{width:100%;opacity:0}}
+    .try-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;border:1px solid rgba(124,111,255,.35);background:rgba(124,111,255,.1);color:var(--role-c);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s}
+    .try-btn:hover{background:rgba(124,111,255,.2);border-color:rgba(124,111,255,.5)}
+    .learn-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px 20px;margin-bottom:12px;transition:border-color .2s}
+    .learn-card:hover{border-color:var(--bh)}
+    .lc-header{display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none}
+    .lc-icon{font-size:20px}
+    .lc-title{font-family:'Syne',sans-serif;font-size:14px;font-weight:700}
+    .lc-badge{font-size:10.5px;font-weight:600;padding:2px 8px;border-radius:5px;letter-spacing:.04em;text-transform:uppercase;margin-left:auto;white-space:nowrap}
+    .lc-chevron{color:var(--text3);font-size:12px;transition:transform .2s;flex-shrink:0}
+    .lc-body{display:none;margin-top:14px;border-top:1px solid var(--border);padding-top:14px}
+    .lc-body.open{display:block}
+    .lc-body p{color:var(--text2);font-size:13px;margin-bottom:10px}
+    .lc-example{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text2);line-height:1.8;white-space:pre-wrap;word-break:break-word;margin-bottom:10px}
+    .lc-badge-bad{background:rgba(248,113,113,.12);color:#f87171;border:1px solid rgba(248,113,113,.3);border-radius:5px;font-size:11px;font-weight:600;padding:1px 7px;text-transform:uppercase;letter-spacing:.04em;display:inline-block;margin-bottom:6px}
+    .lc-badge-good{background:rgba(0,229,180,.1);color:var(--green);border:1px solid rgba(0,229,180,.25);border-radius:5px;font-size:11px;font-weight:600;padding:1px 7px;text-transform:uppercase;letter-spacing:.04em;display:inline-block;margin-bottom:6px}
+    .tech-grid-learn{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+    .tech-item{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:10px 14px;font-size:12.5px;flex:1;min-width:160px}
+    .tech-item strong{display:block;font-weight:600;color:var(--text);margin-bottom:3px}
+    .tech-item span{color:var(--text2);font-size:11.5px}
+    .panel{background:var(--card);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+    .panel-head{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--border);background:rgba(255,255,255,.02)}
+    .panel-title{font-family:'Syne',sans-serif;font-size:.88rem;font-weight:700;display:flex;align-items:center;gap:8px}
+    .panel-badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:5px;letter-spacing:.04em;text-transform:uppercase}
+    .panel-body{padding:20px}
+    .hd-copy{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:7px;border:1px solid var(--border);background:transparent;color:var(--text2);font-family:'DM Sans',sans-serif;font-size:11.5px;font-weight:500;cursor:pointer;transition:all .14s}
+    .hd-copy:hover{background:var(--card2);color:var(--text)}
+    .hd-copy.copied{color:var(--green);border-color:rgba(0,229,180,.3)}
+    .cat-pick-label{font-size:11px;font-weight:700;color:var(--text2);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+    .cat-grid{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px}
+    .cat-chip{display:flex;align-items:center;gap:5px;padding:6px 10px;border-radius:9px;border:1px solid var(--border);background:var(--bg3);color:var(--text2);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;white-space:nowrap;transition:all .16s}
+    .cat-chip:hover{background:var(--card2);border-color:var(--bh);color:var(--text)}
+    .cat-chip.active{border-color:var(--bh);color:var(--text);background:var(--card2);box-shadow:0 0 0 1px rgba(255,255,255,.05) inset}
+    .cc-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+    .strength-wrap{display:flex;align-items:center;gap:10px;margin-bottom:18px;background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:10px 14px}
+    .strength-label{font-size:11.5px;font-weight:600;color:var(--text2);white-space:nowrap}
+    .strength-bar-outer{flex:1;height:6px;background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden}
+    .strength-bar-inner{height:100%;border-radius:99px;transition:width .4s ease;background:linear-gradient(90deg,#7c6fff,#00e5b4)}
+    .strength-pct{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--text);min-width:36px;text-align:right}
+    .strength-stars{display:flex;gap:3px}
+    .strength-star{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.1);transition:background .3s,transform .2s}
+    .strength-star.lit{background:var(--green);transform:scale(1.2)}
+    .field-wrap{margin-bottom:14px;border-radius:12px;border:1.5px solid var(--border);overflow:hidden;transition:border-color .2s,box-shadow .2s}
+    .field-wrap:focus-within{box-shadow:0 0 0 3px rgba(124,111,255,.1)}
+    .field-wrap.filled{border-color:var(--bh)}
+    .field-wrap[data-block="role"]:focus-within{border-color:var(--role-bd);box-shadow:0 0 0 3px rgba(124,111,255,.08)}
+    .field-wrap[data-block="ctx"]:focus-within{border-color:var(--ctx-bd);box-shadow:0 0 0 3px rgba(56,189,248,.08)}
+    .field-wrap[data-block="task"]:focus-within{border-color:var(--task-bd);box-shadow:0 0 0 3px rgba(134,239,172,.08)}
+    .field-wrap[data-block="fmt"]:focus-within{border-color:var(--fmt-bd);box-shadow:0 0 0 3px rgba(251,191,36,.08)}
+    .field-wrap[data-block="con"]:focus-within{border-color:var(--con-bd);box-shadow:0 0 0 3px rgba(249,168,212,.08)}
+    .field-header{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-bottom:1px solid var(--border)}
+    .field-tag{display:inline-flex;align-items:center;gap:6px;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:5px;border:1px solid}
+    .field-check{width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;background:rgba(255,255,255,.05);border:1px solid var(--border);transition:all .2s;color:transparent}
+    .field-check.done{background:var(--green);border-color:var(--green);color:#000;font-weight:700}
+    .field-hint{font-size:11px;color:var(--text3);padding:4px 12px 6px;border-bottom:1px solid var(--border);line-height:1.45;background:rgba(255,255,255,.015)}
+    .field-input,.field-textarea{width:100%;background:transparent;border:none;outline:none;padding:10px 12px;font-family:'DM Sans',sans-serif;font-size:13.5px;color:var(--text);line-height:1.6;resize:none}
+    .field-input::placeholder,.field-textarea::placeholder{color:var(--text3)}
+    .field-textarea{min-height:72px}
+    .field-footer{display:flex;align-items:center;justify-content:space-between;padding:4px 12px 7px}
+    .field-tip{font-size:11px;color:var(--text3);font-style:italic}
+    .field-chars{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3)}
+    .tech-label{font-size:11px;font-weight:700;color:var(--text2);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+    .tech-grid-btns{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:18px}
+    .tech-toggle{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);color:var(--text2);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:all .16s;user-select:none}
+    .tech-toggle:hover{background:var(--card2);color:var(--text);border-color:var(--bh)}
+    .tech-toggle.on{background:rgba(124,111,255,.15);border-color:rgba(124,111,255,.4);color:var(--role-c)}
+    .example-btn{display:inline-flex;align-items:center;gap:7px;padding:8px 15px;border-radius:9px;border:1px solid var(--border);background:var(--bg3);color:var(--text2);font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:500;cursor:pointer;transition:all .16s;margin-bottom:14px}
+    .example-btn:hover{background:var(--card2);color:var(--text);border-color:var(--bh)}
+    .preview-panel{position:sticky;top:20px;align-self:start;max-height:calc(100vh - 40px);display:flex;flex-direction:column}
+    @media(max-width:992px){.preview-panel{position:static;max-height:none}}
+    .preview-panel .panel-body{flex:1;overflow-y:auto;padding:0;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+    .preview-panel .panel-body::-webkit-scrollbar{width:4px}
+    .preview-panel .panel-body::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px}
+    .preview-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:52px 28px;text-align:center;color:var(--text3);min-height:260px}
+    .preview-empty .pe-icon{font-size:34px;margin-bottom:12px;opacity:.3}
+    .preview-empty p{font-size:13px;line-height:1.6;max-width:240px}
+    .preview-block{border-bottom:1px solid var(--border);padding:14px 20px;display:none}
+    .preview-block.has-content{display:block}
+    .pb-tag{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:2px 8px;border-radius:4px;border:1px solid;margin-bottom:8px}
+    .pb-content{font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.85;color:var(--text);white-space:pre-wrap;word-break:break-word}
+    .preview-tech{border-bottom:1px solid var(--border);padding:12px 20px;display:none}
+    .preview-tech.has-content{display:block}
+    .pt-tag{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+    .pt-content{font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.75;color:#b0a8ff;white-space:pre-wrap}
+    .preview-footer{padding:12px 20px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px;background:rgba(255,255,255,.02);flex-shrink:0}
+    .preview-stats{display:flex;gap:12px}
+    .ps-stat{font-size:11.5px;color:var(--text2)}
+    .ps-stat strong{font-family:'JetBrains Mono',monospace;color:var(--text);font-size:12px}
+    .copy-all-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:9px;background:linear-gradient(135deg,#7c6fff,#ff6b9d);border:none;color:#fff;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .18s;letter-spacing:-.01em}
+    .copy-all-btn:hover{opacity:.88;transform:translateY(-1px);box-shadow:0 6px 20px rgba(124,111,255,.3)}
+    .copy-all-btn.copied{background:var(--green);color:#000}
+    .formula-bar{display:flex;gap:6px;flex-wrap:wrap;padding:10px 20px;border-bottom:1px solid var(--border);background:rgba(255,255,255,.015);flex-shrink:0}
+    .fb-pill{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:6px;border:1px solid;font-size:10.5px;font-weight:600;letter-spacing:.03em;cursor:default;opacity:.4;transition:opacity .2s}
+    .fb-pill.active{opacity:1}
+    .fb-num{font-family:'JetBrains Mono',monospace;font-size:9px;opacity:.6}
+    .toast{position:fixed;bottom:24px;right:24px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 18px;font-size:13px;color:var(--text);box-shadow:0 8px 32px rgba(0,0,0,.5);z-index:9999;transform:translateY(20px);opacity:0;transition:all .25s;pointer-events:none}
+    .toast.show{transform:translateY(0);opacity:1}
+    .container-xl{max-width:1300px}
+    .section-gap{margin-bottom:80px}
+  </style>
+</head>
+<body>
+
+<div class="page-head z1">
+  <a href="index.html" class="back-link">← Back to Prompt Universe</a>
+  <div class="page-eyebrow">✦ Interactive Tool · AI-Powered</div>
+  <h1>AI <span class="grad">Prompt Builder</span></h1>
+  <p class="page-sub">Learn prompt engineering by doing — or let AI draft your full prompt from a single sentence.</p>
+</div>
+
+<div class="container-xl z1 section-gap px-3 px-md-4">
+
+  <!-- ONBOARDING BANNER -->
+  <div class="ob-banner" id="obBanner">
+    <button class="ob-close" onclick="dismissOnboarding()">×</button>
+    <div class="ob-title">👋 New here? Here's how this works</div>
+    <div class="ob-desc">Build a professional-grade prompt in under 2 minutes. Three ways to start:</div>
+    <div class="ob-steps">
+      <div class="ob-step"><div class="ob-num">1</div><span><strong>AI Auto-generate</strong> — type what you want, AI fills everything in</span></div>
+      <div class="ob-step"><div class="ob-num">2</div><span><strong>Load an example</strong> — pick a category, hit the ⚡ button</span></div>
+      <div class="ob-step"><div class="ob-num">3</div><span><strong>Build manually</strong> — fill Role → Context → Task → Format → Constraints</span></div>
+    </div>
+    <div class="mt-3">
+      <button class="try-btn" onclick="switchMode('learn')">📚 First time? Start with the Learn tab →</button>
+    </div>
+  </div>
+
+  <!-- MODE TABS -->
+  <div class="mode-bar">
+    <button class="mode-tab active" id="tab-builder" onclick="switchMode('builder')">🛠 Prompt Builder</button>
+    <button class="mode-tab" id="tab-autogen" onclick="switchMode('autogen')">✨ AI Auto-Generate</button>
+    <button class="mode-tab" id="tab-learn" onclick="switchMode('learn')">📚 Learn Prompt Engineering</button>
+  </div>
+
+  <!-- ═══ AI AUTO-GENERATE ═══ -->
+  <div class="mode-section" id="mode-autogen">
+    <div class="ai-box">
+      <div class="ai-box-title">✨ AI Auto-Generate Your Prompt</div>
+      <div class="ai-box-sub">Describe what you want in plain English — even just a few words — and AI writes a full structured prompt for you.</div>
+      <textarea class="ai-idea-input" id="aiIdeaInput" placeholder="e.g. I need to write a LinkedIn post about my new product launch targeting startup founders...&#10;&#10;or just: blog post about healthy eating for busy people&#10;&#10;or: fix a React bug in my login form"></textarea>
+      <div class="ai-row">
+        <select class="ai-cat-sel" id="aiCatSel">
+          <option value="general">General</option>
+          <option value="chatbot">Chatbots / Analysis</option>
+          <option value="coding">Coding</option>
+          <option value="image">Image Gen</option>
+          <option value="video">Video AI</option>
+          <option value="audio">Audio AI</option>
+          <option value="seo">SEO</option>
+          <option value="writing">Writing</option>
+          <option value="marketing">Marketing</option>
+          <option value="data">Data Analysis</option>
+          <option value="design">Design / UI</option>
+          <option value="pres">Presentations</option>
+        </select>
+        <button class="ai-gen-btn" id="aiGenBtn" onclick="generatePrompt()">
+          <span id="aiGenBtnInner">✨ Generate Full Prompt</span>
+        </button>
+      </div>
+      <div class="ai-loading-bar" id="aiLoadBar"></div>
+      <div class="ai-error" id="aiError">⚠ Something went wrong. Check your connection and try again.</div>
+    </div>
+    <div id="aiResultArea" style="display:none">
+      <div class="panel mb-3">
+        <div class="panel-head">
+          <div class="panel-title">🎉 Your Generated Prompt <span class="panel-badge" style="background:rgba(0,229,180,.12);color:#00e5b4;">AI-crafted</span></div>
+          <button class="hd-copy" id="aiCopyBtn" onclick="copyAiResult(this)">⊕ Copy prompt</button>
+        </div>
+        <div class="panel-body" style="padding:0">
+          <div class="preview-block has-content"><div class="pb-tag" style="background:var(--role-bg);color:var(--role-c);border-color:var(--role-bd);">01 · Role</div><div class="pb-content" id="ai-pbc-role" style="color:var(--role-c)"></div></div>
+          <div class="preview-block has-content"><div class="pb-tag" style="background:var(--ctx-bg);color:var(--ctx-c);border-color:var(--ctx-bd);">02 · Context</div><div class="pb-content" id="ai-pbc-ctx" style="color:var(--ctx-c)"></div></div>
+          <div class="preview-block has-content"><div class="pb-tag" style="background:var(--task-bg);color:var(--task-c);border-color:var(--task-bd);">03 · Task</div><div class="pb-content" id="ai-pbc-task" style="color:var(--task-c)"></div></div>
+          <div class="preview-block has-content"><div class="pb-tag" style="background:var(--fmt-bg);color:var(--fmt-c);border-color:var(--fmt-bd);">04 · Format</div><div class="pb-content" id="ai-pbc-fmt" style="color:var(--fmt-c)"></div></div>
+          <div class="preview-block has-content" style="border:none"><div class="pb-tag" style="background:var(--con-bg);color:var(--con-c);border-color:var(--con-bd);">05 · Constraints</div><div class="pb-content" id="ai-pbc-con" style="color:var(--con-c)"></div></div>
+        </div>
+      </div>
+      <button class="try-btn" onclick="loadAiIntoBuilder()">→ Load into Builder to fine-tune</button>
+    </div>
+  </div>
+
+  <!-- ═══ LEARN ═══ -->
+  <div class="mode-section" id="mode-learn">
+
+    <div class="learn-card">
+      <div class="lc-header" onclick="toggleLearn(this)">
+        <div class="lc-icon">🧩</div>
+        <div class="lc-title">What is a prompt?</div>
+        <div class="lc-badge" style="background:rgba(0,229,180,.1);color:var(--green);border:1px solid rgba(0,229,180,.2)">Beginner</div>
+        <div class="lc-chevron">▼</div>
+      </div>
+      <div class="lc-body open">
+        <p>A <strong style="color:var(--text)">prompt</strong> is the instruction you give an AI. Think of it like giving directions to a taxi driver — vague directions get you lost, specific ones get you exactly where you want to go.</p>
+        <p>Weak prompt → generic answer. Strong prompt → exactly what you need.</p>
+        <div><span class="lc-badge-bad">Weak</span></div>
+        <div class="lc-example">Write me a blog post about AI.</div>
+        <div><span class="lc-badge-good">Strong</span></div>
+        <div class="lc-example">You are a technology journalist writing for Wired.
+CONTEXT: Audience is non-technical startup founders, age 30-45.
+TASK: Write a 700-word article explaining how AI agents will change product development in 2026. Cover: (1) what agents are, (2) three real startup use-cases, (3) what founders should do now.
+FORMAT: No jargon, H2 headers, punchy 2-3 sentence paragraphs.
+CONSTRAINTS: No hype language, no "revolutionary", cite a real example per section.</div>
+        <button class="try-btn" onclick="loadLearnExample(); switchMode('builder')">→ Try this in the builder</button>
+      </div>
+    </div>
+
+    <div class="learn-card">
+      <div class="lc-header" onclick="toggleLearn(this)">
+        <div class="lc-icon">🏗️</div>
+        <div class="lc-title">The 5-Block Formula</div>
+        <div class="lc-badge" style="background:rgba(124,111,255,.12);color:var(--role-c);border:1px solid rgba(124,111,255,.25)">Core skill</div>
+        <div class="lc-chevron">▼</div>
+      </div>
+      <div class="lc-body">
+        <p>Every great prompt has up to 5 blocks. You don't need all five — but the more you fill, the better the output.</p>
+        <div class="lc-example" style="border-left:3px solid var(--role-bd);padding-left:14px"><strong style="color:var(--role-c)">01 ROLE</strong>  — Who should the AI be?
+"You are a senior UX researcher at Figma..."</div>
+        <div class="lc-example" style="border-left:3px solid var(--ctx-bd);padding-left:14px"><strong style="color:var(--ctx-c)">02 CONTEXT</strong>  — What background does it need?
+"My app has 12k daily users, React frontend, 40% mobile..."</div>
+        <div class="lc-example" style="border-left:3px solid var(--task-bd);padding-left:14px"><strong style="color:var(--task-c)">03 TASK ★</strong>  — What exactly do you need?
+"Analyse the 3 biggest usability issues. Number each one..."</div>
+        <div class="lc-example" style="border-left:3px solid var(--fmt-bd);padding-left:14px"><strong style="color:var(--fmt-c)">04 FORMAT</strong>  — How should output look?
+"Bullet points, 500 words max, Grade 10 reading level..."</div>
+        <div class="lc-example" style="border-left:3px solid var(--con-bd);padding-left:14px"><strong style="color:var(--con-c)">05 CONSTRAINTS</strong>  — What should it NOT do?
+"No 'it depends' answers, no invented stats, avoid jargon..."</div>
+        <button class="try-btn" onclick="switchMode('builder')">→ Start filling the 5 blocks</button>
+      </div>
+    </div>
+
+    <div class="learn-card">
+      <div class="lc-header" onclick="toggleLearn(this)">
+        <div class="lc-icon">⚡</div>
+        <div class="lc-title">6 Power Techniques</div>
+        <div class="lc-badge" style="background:rgba(251,191,36,.1);color:var(--fmt-c);border:1px solid rgba(251,191,36,.25)">Intermediate</div>
+        <div class="lc-chevron">▼</div>
+      </div>
+      <div class="lc-body">
+        <p>These techniques can be toggled in the Builder. Here's what each one does:</p>
+        <div class="tech-grid-learn">
+          <div class="tech-item"><strong>🧠 Chain-of-Thought</strong><span>Asks AI to reason step-by-step before answering. Best for complex tasks, analysis, or math.</span></div>
+          <div class="tech-item"><strong>🎯 Few-Shot</strong><span>Give 2 examples of what you want. AI matches your exact style and tone.</span></div>
+          <div class="tech-item"><strong>🚫 Negative Prompting</strong><span>Explicitly list what to avoid. "No bullet points" works better than "write in prose."</span></div>
+          <div class="tech-item"><strong>📐 Force JSON</strong><span>Makes AI return structured data. Perfect when you'll use the output in code.</span></div>
+          <div class="tech-item"><strong>🔄 5 Variants</strong><span>AI gives 5 different angles first. You pick which to develop. Saves revision rounds.</span></div>
+          <div class="tech-item"><strong>🔍 Self-Check</strong><span>AI reviews its own answer before showing you. Catches vague sections and missed requirements.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="learn-card">
+      <div class="lc-header" onclick="toggleLearn(this)">
+        <div class="lc-icon">🎓</div>
+        <div class="lc-title">The #1 Mistake Beginners Make</div>
+        <div class="lc-badge" style="background:rgba(249,168,212,.1);color:var(--con-c);border:1px solid rgba(249,168,212,.25)">Must-read</div>
+        <div class="lc-chevron">▼</div>
+      </div>
+      <div class="lc-body">
+        <p>Being too vague. The AI is not a mind-reader. If you'd be embarrassed to hand your prompt to a human colleague as a brief, it's too vague.</p>
+        <p><strong style="color:var(--text)">The fix: specificity beats length.</strong> You don't need 2000 words — you need precise, concrete language.</p>
+        <div class="row g-2 mb-3">
+          <div class="col-6"><div><span class="lc-badge-bad">Too vague</span></div><div class="lc-example" style="margin-top:6px">"Write about marketing"
+"Make it professional"
+"Be an expert"
+"Don't make it long"</div></div>
+          <div class="col-6"><div><span class="lc-badge-good">Specific</span></div><div class="lc-example" style="margin-top:6px">"Write about B2B email marketing"
+"800 words, H2 headers, no jargon"
+"Senior copywriter at HubSpot"
+"Maximum 600 words"</div></div>
+        </div>
+        <button class="try-btn" onclick="loadLearnExample(); switchMode('builder')">→ Practice with a real example</button>
+      </div>
+    </div>
+
+    <div class="learn-card">
+      <div class="lc-header" onclick="toggleLearn(this)">
+        <div class="lc-icon">🚀</div>
+        <div class="lc-title">Prompting for different AI tools</div>
+        <div class="lc-badge" style="background:rgba(134,239,172,.1);color:var(--task-c);border:1px solid rgba(134,239,172,.25)">Advanced</div>
+        <div class="lc-chevron">▼</div>
+      </div>
+      <div class="lc-body">
+        <p>Different AI tools need different strategies. The builder adapts hints per category:</p>
+        <div class="tech-grid-learn">
+          <div class="tech-item"><strong>💬 Chatbots (Claude, GPT)</strong><span>Use Role + numbered Task + Constraints. Chain-of-thought works great here.</span></div>
+          <div class="tech-item"><strong>🖼️ Image Gen (Midjourney)</strong><span>Lead with subject, then lighting, then style reference. Use "--ar" for ratio.</span></div>
+          <div class="tech-item"><strong>🎬 Video AI (Sora, Kling)</strong><span>Describe camera movement separately from subject action. Specify crowd size exactly.</span></div>
+          <div class="tech-item"><strong>💻 Coding (Copilot, Cursor)</strong><span>Specify your full stack + versions. Say "complete file, not a diff." Number requirements.</span></div>
+          <div class="tech-item"><strong>🎵 Audio AI (Suno, Udio)</strong><span>Use "X meets Y" with real artist names. Always include BPM, key, and duration.</span></div>
+          <div class="tech-item"><strong>🔍 SEO content</strong><span>Include keyword difficulty + your DA + competitor DAs. Ask for realistic angle.</span></div>
+        </div>
+        <div class="mt-3"><button class="try-btn" onclick="switchMode('builder')">→ Pick a category in the builder</button></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══ BUILDER ═══ -->
+  <div class="mode-section active" id="mode-builder">
+    <div class="row g-3">
+
+      <!-- LEFT -->
+      <div class="col-12 col-lg-6">
+        <div class="panel">
+          <div class="panel-head">
+            <div class="panel-title">✏️ Build Your Prompt <span class="panel-badge" style="background:rgba(124,111,255,.15);color:#b0a8ff;">Step-by-step</span></div>
+          </div>
+          <div class="panel-body">
+            <div class="cat-pick-label">1 — Pick a category</div>
+            <div class="cat-grid" id="catGrid">
+              <button class="cat-chip active" data-cat="general" onclick="selectCat(this)"><span class="cc-dot" style="background:#888"></span>General</button>
+              <button class="cat-chip" data-cat="chatbot" onclick="selectCat(this)"><span class="cc-dot" style="background:#7c6fff"></span>Chatbots</button>
+              <button class="cat-chip" data-cat="coding" onclick="selectCat(this)"><span class="cc-dot" style="background:#00e5b4"></span>Coding</button>
+              <button class="cat-chip" data-cat="image" onclick="selectCat(this)"><span class="cc-dot" style="background:#ff6b9d"></span>Image Gen</button>
+              <button class="cat-chip" data-cat="video" onclick="selectCat(this)"><span class="cc-dot" style="background:#ff8c42"></span>Video AI</button>
+              <button class="cat-chip" data-cat="audio" onclick="selectCat(this)"><span class="cc-dot" style="background:#38d9f5"></span>Audio AI</button>
+              <button class="cat-chip" data-cat="seo" onclick="selectCat(this)"><span class="cc-dot" style="background:#9ef53a"></span>SEO</button>
+              <button class="cat-chip" data-cat="writing" onclick="selectCat(this)"><span class="cc-dot" style="background:#c084fc"></span>Writing</button>
+              <button class="cat-chip" data-cat="marketing" onclick="selectCat(this)"><span class="cc-dot" style="background:#ffb547"></span>Marketing</button>
+              <button class="cat-chip" data-cat="data" onclick="selectCat(this)"><span class="cc-dot" style="background:#38bdf8"></span>Data</button>
+              <button class="cat-chip" data-cat="design" onclick="selectCat(this)"><span class="cc-dot" style="background:#f472b6"></span>Design</button>
+              <button class="cat-chip" data-cat="pres" onclick="selectCat(this)"><span class="cc-dot" style="background:#a78bfa"></span>Slides</button>
+            </div>
+            <button class="example-btn" onclick="loadExample()" id="exampleBtn">⚡ Load a real general example</button>
+            <div class="strength-wrap">
+              <div class="strength-label">Prompt strength</div>
+              <div class="strength-bar-outer"><div class="strength-bar-inner" id="strengthBar" style="width:0%"></div></div>
+              <div class="strength-stars"><div class="strength-star"></div><div class="strength-star"></div><div class="strength-star"></div><div class="strength-star"></div><div class="strength-star"></div></div>
+              <div class="strength-pct" id="strengthPct">0%</div>
+            </div>
+            <div class="field-wrap" data-block="role" id="fw-role">
+              <div class="field-header"><div class="field-tag" style="background:var(--role-bg);color:var(--role-c);border-color:var(--role-bd);">01 Role</div><div class="field-check" id="fc-role">✓</div></div>
+              <div class="field-hint" id="fh-role">Who should the AI be? Specify expertise, seniority, publication or company context.</div>
+              <input class="field-input" id="f-role" type="text" placeholder="e.g. You are a senior growth marketer at a Series B SaaS startup..." oninput="onFieldChange()"/>
+              <div class="field-footer"><div class="field-tip" id="ft-role">💡 Be specific — "senior copywriter at Wired" beats "an expert"</div><div class="field-chars" id="ch-role">0 chars</div></div>
+            </div>
+            <div class="field-wrap" data-block="ctx" id="fw-ctx">
+              <div class="field-header"><div class="field-tag" style="background:var(--ctx-bg);color:var(--ctx-c);border-color:var(--ctx-bd);">02 Context</div><div class="field-check" id="fc-ctx">✓</div></div>
+              <div class="field-hint" id="fh-ctx">Background the AI needs — audience, existing assets, real metrics, your situation.</div>
+              <textarea class="field-textarea" id="f-ctx" placeholder="e.g. I'm a founder pitching to VCs. My audience is technical but not familiar with market dynamics..." oninput="onFieldChange()"></textarea>
+              <div class="field-footer"><div class="field-tip" id="ft-ctx">💡 Paste real data — metrics, stack, competitor names</div><div class="field-chars" id="ch-ctx">0 chars</div></div>
+            </div>
+            <div class="field-wrap" data-block="task" id="fw-task">
+              <div class="field-header"><div class="field-tag" style="background:var(--task-bg);color:var(--task-c);border-color:var(--task-bd);">03 Task ★</div><div class="field-check" id="fc-task">✓</div></div>
+              <div class="field-hint" id="fh-task">What exactly do you need? Use numbered requirements for complex outputs.</div>
+              <textarea class="field-textarea" id="f-task" placeholder="e.g. Write a 900-word article covering:&#10;1. What X is and why it matters&#10;2. Three real-world examples&#10;3. Common mistakes to avoid" oninput="onFieldChange()" style="min-height:90px"></textarea>
+              <div class="field-footer"><div class="field-tip" id="ft-task">💡 Number your requirements — each becomes a checkable deliverable</div><div class="field-chars" id="ch-task">0 chars</div></div>
+            </div>
+            <div class="field-wrap" data-block="fmt" id="fw-fmt">
+              <div class="field-header"><div class="field-tag" style="background:var(--fmt-bg);color:var(--fmt-c);border-color:var(--fmt-bd);">04 Format</div><div class="field-check" id="fc-fmt">✓</div></div>
+              <div class="field-hint" id="fh-fmt">How should the output look? Length, structure, tone, reading level, style.</div>
+              <input class="field-input" id="f-fmt" type="text" placeholder="e.g. Use H2 headers, 600–800 words, Grade 10 reading level, no bullet points..." oninput="onFieldChange()"/>
+              <div class="field-footer"><div class="field-tip" id="ft-fmt">💡 Include word count — without it the AI decides for you</div><div class="field-chars" id="ch-fmt">0 chars</div></div>
+            </div>
+            <div class="field-wrap" data-block="con" id="fw-con">
+              <div class="field-header"><div class="field-tag" style="background:var(--con-bg);color:var(--con-c);border-color:var(--con-bd);">05 Constraints</div><div class="field-check" id="fc-con">✓</div></div>
+              <div class="field-hint" id="fh-con">What should it NOT do? Name specific words, patterns, or approaches to avoid.</div>
+              <textarea class="field-textarea" id="f-con" placeholder="e.g. Do NOT use: 'delve', 'certainly', 'In conclusion'&#10;No passive voice in first paragraph" oninput="onFieldChange()"></textarea>
+              <div class="field-footer"><div class="field-tip" id="ft-con">💡 Ban specific words — "no delve" beats "no AI clichés"</div><div class="field-chars" id="ch-con">0 chars</div></div>
+            </div>
+            <div style="margin-top:6px">
+              <div class="tech-label">Apply techniques (select any)</div>
+              <div class="tech-grid-btns">
+                <button class="tech-toggle" data-tech="cot" onclick="toggleTech(this)">🧠 Chain-of-Thought</button>
+                <button class="tech-toggle" data-tech="fewshot" onclick="toggleTech(this)">🎯 Few-Shot</button>
+                <button class="tech-toggle" data-tech="negative" onclick="toggleTech(this)">🚫 Negative Prompting</button>
+                <button class="tech-toggle" data-tech="json" onclick="toggleTech(this)">📐 Force JSON</button>
+                <button class="tech-toggle" data-tech="variants" onclick="toggleTech(this)">🔄 5 Variants First</button>
+                <button class="tech-toggle" data-tech="selfcheck" onclick="toggleTech(this)">🔍 Self-Check</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT — LIVE PREVIEW -->
+      <div class="col-12 col-lg-6">
+        <div class="panel preview-panel">
+          <div class="panel-head">
+            <div class="panel-title">👁 Live Preview <span class="panel-badge" style="background:rgba(0,229,180,.12);color:#00e5b4;">Real-time</span></div>
+            <button class="hd-copy" id="hdCopyBtn" onclick="copyAll(this)">⊕ Copy</button>
+          </div>
+          <div class="formula-bar">
+            <div class="fb-pill" id="fp-role" style="background:var(--role-bg);color:var(--role-c);border-color:var(--role-bd);"><span class="fb-num">01</span> Role</div>
+            <div style="color:var(--text3);font-size:12px;align-self:center">→</div>
+            <div class="fb-pill" id="fp-ctx" style="background:var(--ctx-bg);color:var(--ctx-c);border-color:var(--ctx-bd);"><span class="fb-num">02</span> Context</div>
+            <div style="color:var(--text3);font-size:12px;align-self:center">→</div>
+            <div class="fb-pill" id="fp-task" style="background:var(--task-bg);color:var(--task-c);border-color:var(--task-bd);"><span class="fb-num">03</span> Task</div>
+            <div style="color:var(--text3);font-size:12px;align-self:center">→</div>
+            <div class="fb-pill" id="fp-fmt" style="background:var(--fmt-bg);color:var(--fmt-c);border-color:var(--fmt-bd);"><span class="fb-num">04</span> Format</div>
+            <div style="color:var(--text3);font-size:12px;align-self:center">→</div>
+            <div class="fb-pill" id="fp-con" style="background:var(--con-bg);color:var(--con-c);border-color:var(--con-bd);"><span class="fb-num">05</span> Constraints</div>
+          </div>
+          <div class="panel-body" id="previewBody">
+            <div class="preview-empty" id="emptyState"><div class="pe-icon">✦</div><p>Fill in the fields on the left — your prompt assembles here, colour-coded by block.</p></div>
+            <div class="preview-block" id="pb-role"><div class="pb-tag" style="background:var(--role-bg);color:var(--role-c);border-color:var(--role-bd);">01 · Role</div><div class="pb-content" id="pbc-role" style="color:var(--role-c)"></div></div>
+            <div class="preview-block" id="pb-ctx"><div class="pb-tag" style="background:var(--ctx-bg);color:var(--ctx-c);border-color:var(--ctx-bd);">02 · Context</div><div class="pb-content" id="pbc-ctx" style="color:var(--ctx-c)"></div></div>
+            <div class="preview-block" id="pb-task"><div class="pb-tag" style="background:var(--task-bg);color:var(--task-c);border-color:var(--task-bd);">03 · Task</div><div class="pb-content" id="pbc-task" style="color:var(--task-c)"></div></div>
+            <div class="preview-tech" id="pt-cot"><div class="pt-tag">⬡ TECHNIQUE · Chain-of-Thought</div><div class="pt-content">Think through this step by step before giving your final answer. Show your reasoning process first, then present the final output.</div></div>
+            <div class="preview-tech" id="pt-variants"><div class="pt-tag">⬡ TECHNIQUE · 5 Variants</div><div class="pt-content">First, give me 5 different versions of this — each with a meaningfully different angle. Then I will tell you which to develop further.</div></div>
+            <div class="preview-tech" id="pt-fewshot"><div class="pt-tag">⬡ TECHNIQUE · Few-Shot Examples</div><div class="pt-content">Here are two examples of the exact style and format I want:
+
+Example 1:
+[Paste your first example here]
+
+Example 2:
+[Paste your second example here]
+
+Now apply exactly the same style, tone and structure to the task above.</div></div>
+            <div class="preview-tech" id="pt-json"><div class="pt-tag">⬡ TECHNIQUE · JSON Output</div><div class="pt-content">Respond ONLY with valid, parseable JSON. No prose, no markdown fences. Use this structure:
+{
+  "result": "",
+  "summary": "",
+  "key_points": [],
+  "next_steps": []
+}</div></div>
+            <div class="preview-block" id="pb-fmt"><div class="pb-tag" style="background:var(--fmt-bg);color:var(--fmt-c);border-color:var(--fmt-bd);">04 · Format</div><div class="pb-content" id="pbc-fmt" style="color:var(--fmt-c)"></div></div>
+            <div class="preview-block" id="pb-con"><div class="pb-tag" style="background:var(--con-bg);color:var(--con-c);border-color:var(--con-bd);">05 · Constraints</div><div class="pb-content" id="pbc-con" style="color:var(--con-c)"></div></div>
+            <div class="preview-tech" id="pt-negative"><div class="pt-tag">⬡ TECHNIQUE · Negative Prompting (enhanced)</div><div class="pt-content" id="pt-negative-content"></div></div>
+            <div class="preview-tech" id="pt-selfcheck"><div class="pt-tag">⬡ TECHNIQUE · Self-Check</div><div class="pt-content">Before finalising your response, check:
+1. Does every claim have evidence or a clear source?
+2. Are there any sections that are vague or could be more specific?
+3. Does the output fully address every numbered requirement in the Task?
+If no to any, revise before presenting your final answer.</div></div>
+          </div>
+          <div class="preview-footer">
+            <div class="preview-stats">
+              <div class="ps-stat">Words: <strong id="stat-words">0</strong></div>
+              <div class="ps-stat">Chars: <strong id="stat-chars">0</strong></div>
+              <div class="ps-stat">Blocks: <strong id="stat-blocks">0/5</strong></div>
+            </div>
+            <button class="copy-all-btn" onclick="copyAll(this)">⊕ Copy prompt</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// ── MODE ──────────────────────────────────────────────────────
+function switchMode(mode) {
+  ['builder','autogen','learn'].forEach(m => {
+    document.getElementById('tab-'+m).classList.toggle('active', m===mode);
+    document.getElementById('mode-'+m).classList.toggle('active', m===mode);
+  });
+}
+
+// ── ONBOARDING ────────────────────────────────────────────────
+function dismissOnboarding() {
+  document.getElementById('obBanner').style.display='none';
+  try{localStorage.setItem('pu_ob','1')}catch(e){}
+}
+try{if(localStorage.getItem('pu_ob'))document.getElementById('obBanner').style.display='none'}catch(e){}
+
+// ── LEARN ACCORDION ───────────────────────────────────────────
+function toggleLearn(header) {
+  const body=header.nextElementSibling;
+  const chev=header.querySelector('.lc-chevron');
+  const open=body.classList.contains('open');
+  body.classList.toggle('open',!open);
+  chev.style.transform=open?'':'rotate(180deg)';
+}
+
+// ── CATEGORY DATA ─────────────────────────────────────────────
+const CAT_HINTS={
+  general:{role:'Who should the AI be? Specify expertise, seniority, publication or company context.',ctx:'Background the AI needs — audience, existing assets, real metrics, your situation.',task:'What exactly do you need? Use numbered requirements for complex outputs.',fmt:'How should the output look? Length, structure, tone, reading level, style.',con:"What should it NOT do? Name specific words, patterns, or approaches to avoid.",rtip:'💡 Be specific — "senior copywriter at Wired" beats "an expert"',ctip:'💡 Paste real data — metrics, stack, competitor names',ttip:'💡 Number your requirements — each one becomes a checkable deliverable',ftip:'💡 Include word count — without it the AI decides for you',contip:'💡 Ban specific words — "no delve" beats "no AI clichés"'},
+  chatbot:{role:'What type of expert analyst or writer? e.g. McKinsey analyst, HBR journalist.',ctx:'Who is your final audience? Their role, knowledge level, what they care about.',task:'Exactly what analysis or content? List sub-questions or sections numbered.',fmt:'Output structure: headers, bullets, word count, tone.',con:'What to avoid: hallucinated stats, buzzwords, certain phrases.',rtip:'💡 Name a real publication — "Wired contributing editor" activates a precise style',ctip:'💡 "They hate corporate speak" is more powerful than "professional audience"',ttip:'💡 Ask for numbered sub-topics so every section gets covered',ftip:'💡 "Lead every section with a bolded key insight" saves you heavy editing',contip:'💡 Add: "Mark any estimate with (est.)" to prevent silent hallucination'},
+  coding:{role:'Engineering archetype + specialisation. e.g. Senior full-stack, React 18, Node.js.',ctx:'Full stack: frameworks, versions, state management, libraries, existing file names.',task:'Feature or bug: list each requirement numbered. Include timing, server vs client, etc.',fmt:'Output: complete file (not diff), which files, comment each decision.',con:'Forbidden: "Do NOT use useEffect for fetching", no new dependencies, must include a11y.',rtip:'💡 Add "You write production-quality code with proper error handling"',ctip:'💡 Paste exact stack with version numbers — React 17 and 18 behave differently',ttip:'💡 Say "complete file, not a diff" or you get unusable snippets',ftip:'💡 Ask for a comment block at the top explaining what changed and why',contip:'💡 "Do not add new dependencies" is the most important coding constraint'},
+  image:{role:'Subject description: who/what, age, ethnicity, expression, clothing.',ctx:'Environment: location, time of day, lighting direction, weather, background.',task:'Shot type: framing (close-up, wide), camera angle, lens (85mm f/1.4), depth of field.',fmt:'Style: publication reference (Vogue, NatGeo), colour grade, film grain, aspect ratio --ar',con:'Avoid: cartoon, AI-looking skin, symmetric pose, lens flare, text overlays.',rtip:'💡 Describe lighting before colour — light creates mood, colour corrects it',ctip:'💡 Specify a real camera + lens: "Sony A7R V, 85mm f/1.4" beats "photorealistic"',ttip:'💡 Use a publication name: "Vogue Business editorial" activates a huge reference library',ftip:'💡 Add "--style raw --v 6.1" in Midjourney for most realistic results',contip:'💡 "AI-looking skin texture" is the most effective negative prompt for realism'},
+  video:{role:'Camera style reference: cinematographer name or film aesthetic.',ctx:'Scene: subject, location, time of day, lighting conditions, crowd size (exact number).',task:'Action: what subject does + camera movement SEPARATELY (pull back, arc left, etc.)',fmt:'Duration, aspect ratio, colour grade, lighting temperature, shot list.',con:'Avoid: slow motion, game-engine smooth camera, chaotic crowd, text overlays.',rtip:'💡 Describe camera movement separately from subject action',ctip:'💡 Specify crowd size exactly — "5-6 people" prevents uncontrollable crowd rendering',ttip:'💡 Include physical details like "breath visible as white mist" for realism',ftip:'💡 Duration + lighting source + colour grade = 3 non-negotiable video specs',contip:'💡 "Slightly imperfect motion" is counterintuitive but critical for AI video realism'},
+  audio:{role:'Genre + mood: "X meets Y" format with real artist names and era.',ctx:'Where will this be used? Video length, emotional arc of the piece.',task:'Timestamped arrangement: which instruments enter at which seconds.',fmt:'BPM, key, duration, "no lyrics" if instrumental, reference tracks by name.',con:'Avoid specific instruments, moods, or characteristics that do not fit.',rtip:'💡 "X meets Y" with real artists is the most efficient music prompt structure',ctip:'💡 Describe the emotional arc — "starts slow and builds to hopeful"',ttip:'💡 Timestamps + instrument names = directing a composer, not describing a vibe',ftip:'💡 BPM + key + reference tracks = minimum technical spec for any music prompt',contip:'💡 Always add "no lyrics" even for typically-instrumental genres'},
+  seo:{role:'SEO expertise + framework knowledge. e.g. SEO strategist, 10 years SaaS, E-E-A-T.',ctx:'Keyword, MSV, KD, your site DA, top competitor names + their DAs.',task:'Deliverables: intent analysis, H1, full H2/H3 outline, LSI keywords, competitive angle.',fmt:'Exact output structure: ## Intent, ## Outline with H2/H3, ## Semantic Keywords.',con:'No invented stats, H2s must address real user questions, no generic advice.',rtip:'💡 Name specific frameworks (E-E-A-T, search intent) — the AI will apply them',ctip:'💡 The DA gap between you and competitors is the most important context',ttip:'💡 Ask for "the argument a DA 41 site can realistically win" — forces tactical realism',ftip:'💡 Prescribe the exact ## heading structure so output is copy-pasteable',contip:"💡 Name the platitude to avoid: \"no 'just create better content' advice\""},
+  writing:{role:'Specific publication + voice descriptors. e.g. "Contributing editor at Wired — sharp, curious."',ctx:'Who is the reader? Their job, age, what they hate (rejections > preferences).',task:'Article structure as a narrative arc: opening type, key concept, quote type, closing.',fmt:'No headers / flowing prose / sentence variety / paragraph length / Flesch-Kincaid target.',con:"Banned words: list AI tics — 'delve', 'certainly', 'It's worth noting', em-dash limit.",rtip:'💡 "Explaining to a brilliant friend" sets intellect AND warmth simultaneously',ctip:'💡 "They hate corporate speak" is more powerful than describing what they like',ttip:'💡 Describe the narrative arc (open → concept → quote → provocation)',ftip:'💡 "Max 4 sentences per paragraph" enforces readability without a full style guide',contip:"💡 \"Do NOT use: 'delve', 'certainly', 'In conclusion'\" — ban by name"},
+  marketing:{role:'Conversion copywriter + medium. e.g. "B2B SaaS email copywriter — direct, human, no fluff."',ctx:'Product differentiator, target pain point, their current workaround, sequence stage.',task:"Each email's strategic job: \"Email 2 — overcome switching cost objection.\"",fmt:'Subject + A/B variant, preview text (45 chars max), body 150-220 words, CTA label.',con:'No exclamation marks in subject, every email must start with a line about THEM.',rtip:"💡 Describe the customer's current painful workaround — features → empathy",ctip:'💡 Include the objection each email must overcome',ttip:'💡 Always ask for an A/B subject line variant',ftip:'💡 "Write for a mobile reader with 6 seconds of attention" forces tight first lines',contip:'💡 "Every email must start with a line about THEM" is the highest-ROI constraint'},
+  data:{role:'Data analyst who translates numbers into decisions — every insight must include an action.',ctx:'Dataset columns, date range, business events during the period (price changes, launches).',task:'Numbered deliverables: key trends (% change), inflection point, variance analysis, health score.',fmt:'Executive summary sentence first, table for trends, plain language, end with action verbs.',con:'Distinguish correlation vs causation, flag estimates, say so if you cannot calculate precisely.',rtip:'💡 "Every insight must include a recommended action" transforms descriptive to prescriptive',ctip:'💡 Include business events so the AI links data to real causes',ttip:"💡 Ask for '3 most likely alternative explanations' to pressure-test hypotheses",ftip:'💡 "Lead with a single executive summary sentence" forces prioritisation',contip:"💡 \"Say so if you cannot calculate it precisely\" is the most important data constraint"},
+  design:{role:'Designer at specific company type. e.g. "Senior product designer at fintech. 8pt grid, WCAG 2.1 AA."',ctx:'Design tokens: primary hex, fonts, component library (shadcn/ui, MUI), breakpoints.',task:'Component: list each data point, all 5 interactive states (default/hover/focus/disabled/loading).',fmt:'React + Tailwind, dark mode variant, realistic placeholder data, annotate each decision.',con:'No inline styles, numbers in monospace, colour-only differentiation forbidden (a11y).',rtip:'💡 Always provide hex codes not colour names',ctip:'💡 Reference a real product: "similar density to Linear\'s issue tracker"',ttip:'💡 "Use realistic placeholder data" exposes layout problems fake data hides',ftip:'💡 Ask for all 5 component states: default, hover, focus, disabled, loading',contip:'💡 "Colour-only differentiation is forbidden" forces accessible design automatically'},
+  pres:{role:'Pitch consultant. e.g. "Startup pitch consultant — helped raise $500M+."',ctx:'Real metrics: MRR, customer count, MoM growth, NPS. Stage, ask amount, team background.',task:'Slide-by-slide: title (5 words max), one insight to land, spoken script (60-90 words), visual.',fmt:'Ordered list: Cover → Problem → Solution → Why Now → Demo → Model → Traction → Team → Ask.',con:'No "game-changing", "disrupting", "paradigm shift". Problem slide must use a human story.',rtip:'💡 "Investors decide in 90 seconds" tells the AI to front-load compelling content',ctip:'💡 Paste real MRR and growth figures — calibrates the entire narrative',ttip:'💡 Ask for the "one aha moment" per slide — prevents information overload',ftip:'💡 Specify presentation time upfront — "10-minute pitch" changes every script length',contip:'💡 "Acknowledge one genuine weakness" builds more investor trust than perfection'},
+};
+
+const EXAMPLES={
+  general:{role:'You are a clear, direct communicator who values precision over padding.',ctx:'I am preparing a summary for a non-technical executive who has 3 minutes to read it.',task:'Summarise the key points of the attached document in plain English. Cover:\n1. The main argument\n2. The top 3 supporting evidence points\n3. Any risks or counterarguments mentioned',fmt:'Use a single-sentence opener, then bullet points. 150 words maximum. No jargon.',con:"Do NOT use: 'it's worth noting', 'delve', 'certainly'. No invented facts."},
+  chatbot:{role:'You are a senior analyst at McKinsey with deep expertise in SaaS business models.',ctx:"Audience: Series A founders who understand metrics but haven't worked in consulting.",task:'Analyse the pitch deck and:\n1. Identify the 3 strongest points\n2. Identify the 3 weakest points\n3. Suggest one key metric missing from each weakness',fmt:'Use H2 headers for each section. 400 words max. Be direct — no softening language.',con:"Do NOT say 'it depends' without a specific condition. Mark any estimate with (est.)."},
+  coding:{role:'You are a senior full-stack engineer specialising in React 18, TypeScript, and Next.js 14.',ctx:'App: Next.js 14, React 18, TypeScript, Tailwind CSS, Prisma + PostgreSQL. State: Zustand.',task:'Build a debounced search component:\n1. Input with 300ms debounce\n2. Fetch from /api/search?q= on change\n3. Show loading spinner during fetch\n4. Display results as a dropdown list\n5. Keyboard navigation (arrow + enter)',fmt:'Return the complete component file. TypeScript interfaces. Comment each key decision.',con:'No useEffect for fetching — use a custom hook. No new npm packages. Must meet WCAG 2.1 AA.'},
+  image:{role:'A photojournalist in her early 30s, South Asian, weathered field jacket, camera at her side.',ctx:'Golden hour. Remote mountain village, Nepal. Warm side-lighting from the left. Stone buildings blurred.',task:'Medium shot, eye-level, 85mm f/1.4 shallow depth of field, subject sharp, background bokeh.',fmt:'Shot style: NatGeo documentary. Warm colour grade, slight film grain. --ar 4:5',con:'No cartoon. No AI-looking skin. No symmetric pose. No lens flare. No text overlays.'},
+  writing:{role:'You are a contributing editor at The Atlantic — intellectually rigorous, warm, never condescending.',ctx:"Reader: curious professional, age 28-45. They hate jargon and corporate speak.",task:'Write an 800-word essay on why most people are bad at asking for help. Cover:\n1. The psychological reason (ego threat)\n2. The social reason (fear of burden)\n3. A counterintuitive reframe that makes asking feel different',fmt:'Flowing prose, no headers, max 4 sentences per paragraph, conversational but intelligent.',con:"Do NOT use: 'delve', 'certainly', 'it's worth noting'. No em-dashes. No listicles."},
+  marketing:{role:'You are a B2B SaaS email copywriter — direct, human, zero fluff.',ctx:"Product: Notion-like tool for engineering teams. Pain: context-switching between Jira + Confluence + Slack. Email 1 of 3-part sequence.",task:'Write a cold outreach email that:\n1. Opens with their pain (not our product)\n2. Makes one specific claim about the problem cost\n3. Ends with a soft CTA (not "book a demo")',fmt:'Subject + A/B variant, preview text (45 chars max), body 160 words max.',con:"No exclamation marks in subject. Start with THEM, not us. No 'I hope this email finds you'."},
+  seo:{role:'SEO content strategist, 10 years in SaaS, deep E-E-A-T expertise.',ctx:"Keyword: 'project management software for remote teams'. MSV: 8,400. KD: 62. My site DA: 41. Competitors: Monday.com (DA 89), Asana (DA 88).",task:'Deliver:\n1. Search intent analysis\n2. H1 recommendation\n3. Full H2/H3 outline\n4. 12 LSI keyword suggestions\n5. Competitive angle a DA 41 site can realistically win with',fmt:'Use ## Intent, ## H1 Option, ## Outline (indented H3s), ## LSI Keywords as section headers.',con:"No invented stats. Every H2 must address a real user question. No 'just create better content'."},
+  data:{role:"Data analyst who translates numbers into decisions. Every insight must include a recommended action.",ctx:'Weekly SaaS metrics Jan-Jun 2026. Columns: week, MRR, new_signups, churn_rate, NPS. Key events: Feb 14 price increase (+20%), Apr 3 new onboarding flow.',task:'Analyse and deliver:\n1. 3 key trends (% change + direction)\n2. Biggest inflection point and its likely cause\n3. One early warning signal\n4. Recommended action for each finding',fmt:'Start with a single executive summary sentence. Use a table for trends. Plain language.',con:'Distinguish correlation vs causation. Flag estimates. Do NOT invent data points.'},
+  design:{role:'Senior product designer at a fintech startup. 8pt grid, WCAG 2.1 AA.',ctx:'Stack: React 18, Tailwind CSS, shadcn/ui. Primary: #6366F1. Brand: Syne (headings), DM Sans (body). Mobile-first.',task:'Build a transaction card component showing:\n1. Merchant name + category icon\n2. Amount (positive=green, negative=red)\n3. Date + time\n4. Status badge (pending/complete/failed)\n5. All 5 states: default, hover, focus, disabled, loading',fmt:'React + TypeScript + Tailwind. Dark mode variant. Realistic placeholder data. Annotate each decision.',con:'No inline styles. Numbers in monospace. No colour-only differentiation. Max-width 400px.'},
+  pres:{role:'Startup pitch consultant who has helped founders raise over $500M.',ctx:'Company: B2B SaaS for HR teams. MRR: $42K. MoM growth: 18%. Customers: 87. Raising: $3M Seed.',task:'Create a 10-slide pitch deck outline:\n1. Slide title (5 words max)\n2. The one insight to land\n3. 60-word spoken script\n4. Visual description',fmt:'Ordered list: Cover → Problem → Solution → Why Now → Demo → Model → Traction → Team → Competition → Ask.',con:"No 'game-changing', 'disrupting'. Problem slide must open with a human story, not a stat."},
+  audio:{role:'Early Bon Iver meets Jon Hopkins — organic warmth over minimal electronic textures.',ctx:'Background music for a 3-minute product demo video. Arc: calm at start, building at 1:30, warm resolution at 2:45.',task:'Timestamped arrangement:\n0:00 — sparse piano + soft pad\n0:45 — gentle percussion enters\n1:30 — fuller build, bass pulse\n2:15 — peak energy\n2:45 — strip back to piano',fmt:'BPM: 84. Key: D major. Duration: 3:10. No lyrics. Reference: Nils Frahm "Says".',con:'No drums until 0:45. No brass. No drop. Avoid: busy, aggressive, corporate.'},
+  video:{role:'Roger Deakins aesthetic — Blade Runner 2049 colour palette.',ctx:'Scene: solo female entrepreneur, mid-30s, minimalist desk at dusk. Warm amber. 5-6 people blurred in background.',task:'Action: she closes laptop, leans back, looks toward window. Camera: slow push-in from medium to medium-close over 6 seconds.',fmt:'Duration: 8 seconds. 16:9. Warm amber with slight blue in shadows. Practical lamp as key light.',con:'No slow motion. No game-engine smoothness. No text overlays. Slightly imperfect motion preferred.'},
+};
+
+// ── BUILDER ───────────────────────────────────────────────────
+let activeCat='general';
+const activeTechs=new Set();
+
+function selectCat(el){
+  document.querySelectorAll('.cat-chip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  activeCat=el.dataset.cat;
+  updateHints();
+  updateExampleBtn();
+}
+function updateHints(){
+  const h=CAT_HINTS[activeCat]||CAT_HINTS.general;
+  document.getElementById('fh-role').textContent=h.role;
+  document.getElementById('fh-ctx').textContent=h.ctx;
+  document.getElementById('fh-task').textContent=h.task;
+  document.getElementById('fh-fmt').textContent=h.fmt;
+  document.getElementById('fh-con').textContent=h.con;
+  document.getElementById('ft-role').textContent=h.rtip;
+  document.getElementById('ft-ctx').textContent=h.ctip;
+  document.getElementById('ft-task').textContent=h.ttip;
+  document.getElementById('ft-fmt').textContent=h.ftip;
+  document.getElementById('ft-con').textContent=h.contip;
+}
+function updateExampleBtn(){
+  const n={general:'general',chatbot:'chatbot',coding:'coding',image:'image gen',video:'video AI',audio:'audio AI',seo:'SEO',writing:'writing',marketing:'marketing',data:'data',design:'design',pres:'slides'};
+  document.getElementById('exampleBtn').textContent='⚡ Load a real '+(n[activeCat]||activeCat)+' example';
+}
+function loadExample(){
+  const ex=EXAMPLES[activeCat]||EXAMPLES.general;
+  document.getElementById('f-role').value=ex.role||'';
+  document.getElementById('f-ctx').value=ex.ctx||'';
+  document.getElementById('f-task').value=ex.task||'';
+  document.getElementById('f-fmt').value=ex.fmt||'';
+  document.getElementById('f-con').value=ex.con||'';
+  onFieldChange();
+}
+function loadLearnExample(){
+  const ex=EXAMPLES.writing;
+  document.getElementById('f-role').value=ex.role||'';
+  document.getElementById('f-ctx').value=ex.ctx||'';
+  document.getElementById('f-task').value=ex.task||'';
+  document.getElementById('f-fmt').value=ex.fmt||'';
+  document.getElementById('f-con').value=ex.con||'';
+  activeCat='writing';
+  document.querySelectorAll('.cat-chip').forEach(c=>c.classList.toggle('active',c.dataset.cat==='writing'));
+  updateHints(); onFieldChange();
+}
+function toggleTech(btn){
+  const t=btn.dataset.tech;
+  activeTechs.has(t)?activeTechs.delete(t):activeTechs.add(t);
+  btn.classList.toggle('on',activeTechs.has(t));
+  updatePreview();
+}
+function onFieldChange(){
+  ['role','ctx','task','fmt','con'].forEach(id=>{
+    const v=(document.getElementById('f-'+id).value||'').trim();
+    document.getElementById('ch-'+id).textContent=(document.getElementById('f-'+id).value||'').length+' chars';
+    document.getElementById('fw-'+id).classList.toggle('filled',v.length>0);
+    document.getElementById('fc-'+id).classList.toggle('done',v.length>0);
+  });
+  const ids=['role','ctx','task','fmt','con'];
+  const filled=ids.filter(id=>(document.getElementById('f-'+id).value||'').trim().length>0).length;
+  const pct=Math.round((filled/5)*100);
+  document.getElementById('strengthBar').style.width=pct+'%';
+  document.getElementById('strengthPct').textContent=pct+'%';
+  document.querySelectorAll('.strength-star').forEach((s,i)=>s.classList.toggle('lit',i<filled));
+  ids.forEach(b=>{
+    const v=(document.getElementById('f-'+b).value||'').trim();
+    document.getElementById('fp-'+b).classList.toggle('active',v.length>0);
+  });
+  updatePreview();
+}
+function updatePreview(){
+  const vals={};
+  ['role','ctx','task','fmt','con'].forEach(id=>vals[id]=(document.getElementById('f-'+id).value||'').trim());
+  const hasAny=Object.values(vals).some(v=>v.length>0);
+  document.getElementById('emptyState').style.display=hasAny?'none':'flex';
+  ['role','ctx','task','fmt','con'].forEach(id=>{
+    const b=document.getElementById('pb-'+id);
+    const c=document.getElementById('pbc-'+id);
+    if(b&&c){c.textContent=vals[id];b.classList.toggle('has-content',vals[id].length>0);}
+  });
+  ['cot','variants','fewshot','json','selfcheck'].forEach(t=>{
+    const el=document.getElementById('pt-'+t);
+    if(el)el.classList.toggle('has-content',activeTechs.has(t));
+  });
+  const negEl=document.getElementById('pt-negative');
+  if(activeTechs.has('negative')&&vals.con){
+    document.getElementById('pt-negative-content').textContent='The following must be strictly avoided:\n\n'+vals.con.split('\n').map(l=>'• '+l).join('\n');
+    negEl.classList.add('has-content');
+  }else{negEl.classList.remove('has-content');}
+  const pt=buildPlainText();
+  const words=pt.trim()?pt.trim().split(/\s+/).length:0;
+  document.getElementById('stat-words').textContent=words;
+  document.getElementById('stat-chars').textContent=pt.length;
+  document.getElementById('stat-blocks').textContent=Object.values(vals).filter(v=>v.length>0).length+'/5';
+}
+function buildPlainText(){
+  const r=(document.getElementById('f-role').value||'').trim();
+  const c=(document.getElementById('f-ctx').value||'').trim();
+  const t=(document.getElementById('f-task').value||'').trim();
+  const f=(document.getElementById('f-fmt').value||'').trim();
+  const n=(document.getElementById('f-con').value||'').trim();
+  let p=[];
+  if(r)p.push(r);
+  if(c)p.push('\nCONTEXT:\n'+c);
+  if(t)p.push('\nTASK:\n'+t);
+  if(activeTechs.has('cot'))p.push('\nThink through this step by step before giving your final answer. Show your reasoning process first, then present the final output.');
+  if(activeTechs.has('variants'))p.push('\nFirst, give me 5 different versions of this — each with a meaningfully different angle. Then I will tell you which to develop further.');
+  if(activeTechs.has('fewshot'))p.push('\nHere are two examples of the exact style and format I want:\n\nExample 1:\n[Paste your first example here]\n\nExample 2:\n[Paste your second example here]\n\nNow apply exactly the same style, tone and structure to the task above.');
+  if(activeTechs.has('json'))p.push('\nRespond ONLY with valid, parseable JSON. No prose, no markdown fences. Use this structure:\n{\n  "result": "",\n  "summary": "",\n  "key_points": [],\n  "next_steps": []\n}');
+  if(f)p.push('\nFORMAT:\n'+f);
+  if(n)p.push('\nCONSTRAINTS:\n'+n);
+  if(activeTechs.has('negative')&&n)p.push('\nIMPORTANT — strictly avoid:\n'+n.split('\n').map(l=>'• '+l).join('\n'));
+  if(activeTechs.has('selfcheck'))p.push('\nBefore finalising, check:\n1. Does every claim have evidence?\n2. Are there any vague sections?\n3. Does the output address every numbered requirement?\nIf no to any, revise before presenting your final answer.');
+  return p.join('\n');
+}
+function copyAll(btn){
+  const text=buildPlainText();
+  if(!text.trim())return;
+  navigator.clipboard.writeText(text).then(()=>{
+    btn.classList.add('copied');
+    const orig=btn.innerHTML;
+    btn.innerHTML='✓ Copied!';
+    setTimeout(()=>{btn.classList.remove('copied');btn.innerHTML=orig;},2200);
+  });
+}
+
+// ── AI AUTO-GENERATE ──────────────────────────────────────────
+let lastAiResult=null;
+async function generatePrompt(){
+  const idea=document.getElementById('aiIdeaInput').value.trim();
+  if(!idea){showToast('✏️ Type something first!');return;}
+  const cat=document.getElementById('aiCatSel').value;
+  const btn=document.getElementById('aiGenBtn');
+  const inner=document.getElementById('aiGenBtnInner');
+  const bar=document.getElementById('aiLoadBar');
+  const errEl=document.getElementById('aiError');
+  const resultArea=document.getElementById('aiResultArea');
+  btn.disabled=true;
+  inner.innerHTML='<span class="spinner"></span> Generating...';
+  bar.classList.add('running');
+  errEl.style.display='none';
+  resultArea.style.display='none';
+  const sys=`You are an expert prompt engineer. Given a user's rough idea and a category, generate a professional structured prompt with exactly 5 parts.
+
+Return ONLY valid JSON with these exact keys (no markdown, no extra text):
+{"role":"...","context":"...","task":"...","format":"...","constraints":"..."}
+
+Rules:
+- role: specific expert persona with seniority, company/publication, relevant expertise
+- context: relevant background, audience details, specifics inferred from the idea
+- task: numbered requirements (1. 2. 3.) — be concrete, include word counts or quantities
+- format: output structure, length, style, tone (always include word count)
+- constraints: 3-5 specific things to avoid, including at least 1 banned AI cliche word
+
+Category: ${cat}. Keep it professional, specific, and immediately usable.`;
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:sys,messages:[{role:'user',content:`Generate a structured prompt for: "${idea}"`}]})
+    });
+    const data=await res.json();
+    const text=data.content?.map(c=>c.text||'').join('');
+    if(!text)throw new Error('Empty response');
+    const clean=text.replace(/```json|```/g,'').trim();
+    const parsed=JSON.parse(clean);
+    lastAiResult=parsed;
+    document.getElementById('ai-pbc-role').textContent=parsed.role||'';
+    document.getElementById('ai-pbc-ctx').textContent=parsed.context||'';
+    document.getElementById('ai-pbc-task').textContent=parsed.task||'';
+    document.getElementById('ai-pbc-fmt').textContent=parsed.format||'';
+    document.getElementById('ai-pbc-con').textContent=parsed.constraints||'';
+    resultArea.style.display='block';
+    resultArea.scrollIntoView({behavior:'smooth',block:'start'});
+    showToast('✨ Prompt generated!');
+  }catch(e){
+    errEl.style.display='block';
+    console.error(e);
+  }
+  btn.disabled=false;
+  inner.innerHTML='✨ Generate Full Prompt';
+  bar.classList.remove('running');
+}
+function copyAiResult(btn){
+  if(!lastAiResult)return;
+  const text=[lastAiResult.role,lastAiResult.context?'\nCONTEXT:\n'+lastAiResult.context:'',lastAiResult.task?'\nTASK:\n'+lastAiResult.task:'',lastAiResult.format?'\nFORMAT:\n'+lastAiResult.format:'',lastAiResult.constraints?'\nCONSTRAINTS:\n'+lastAiResult.constraints:''].filter(Boolean).join('\n');
+  navigator.clipboard.writeText(text).then(()=>{
+    btn.classList.add('copied');const orig=btn.innerHTML;btn.innerHTML='✓ Copied!';
+    setTimeout(()=>{btn.classList.remove('copied');btn.innerHTML=orig;},2200);
+  });
+}
+function loadAiIntoBuilder(){
+  if(!lastAiResult)return;
+  document.getElementById('f-role').value=lastAiResult.role||'';
+  document.getElementById('f-ctx').value=lastAiResult.context||'';
+  document.getElementById('f-task').value=lastAiResult.task||'';
+  document.getElementById('f-fmt').value=lastAiResult.format||'';
+  document.getElementById('f-con').value=lastAiResult.constraints||'';
+  const cat=document.getElementById('aiCatSel').value;
+  activeCat=cat;
+  document.querySelectorAll('.cat-chip').forEach(c=>c.classList.toggle('active',c.dataset.cat===cat));
+  updateHints(); onFieldChange(); switchMode('builder');
+  showToast('→ Loaded into builder!');
+}
+
+// ── TOAST ─────────────────────────────────────────────────────
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+// ── INIT ──────────────────────────────────────────────────────
+updateHints(); updateExampleBtn();
+</script>
+</body>
+</html>
